@@ -1,0 +1,72 @@
+grammar TraductorC;
+
+prg ::= "PROGRAM" IDENT ";" dcllist cabecera sentlist "END"
+    "PROGRAM" IDENT subproglist
+dcllist ::= ʎ | dcl dcllist
+cabecera ::= ʎ | "INTERFACE" cablist "END" "INTERFACE"
+cablist ::= decproc decsubprog | decfun decsubprog
+decsubprog ::= ʎ | decproc decsubprog | decfun decsubprog
+sentlist ::= sent | sentlist sent
+
+
+
+dcl ::= defcte | defvar
+defcte ::= ʎ
+    | tipo "," "PARAMETER" "::" IDENT "=" simpvalue ctelist ";"
+    defcte
+
+ctelist ::= ʎ |  "," IDENT "=" simpvalue ctelist
+simpvalue ::= NUM_INT_CONST | NUM_REAL_CONST | STRING_CONST
+
+defvar ::= ʎ | tipo "::" varlist ";" defvar
+tipo ::= "INTEGER" | "REAL" | "CHARACTER" charlength
+charlength ::= ʎ | "(" NUM_INT_CONST ")"
+varlist ::= IDENT init | varlist "," IDENT init
+init ::= ʎ | "=" simpvalue
+
+
+
+
+decproc ::=  "SUBROUTINE" IDENT formal_paramlist
+    dec_s_paramlist "END" "SUBROUTINE" IDENT
+formal_paramlist ::= ʎ | "(" nomparamlist ")"
+nomparamlist ::= IDENT | IDENT "," nomparamlist
+dec_s_paramlist ::= ʎ | tipo "," "INTENT" "(" tipoparam ")" IDENT ";"
+    dec_s_paramlist
+dec_d_paramlist ::= tipo "," "INTENT" "(" tipoparam ")" IDENT ";"
+tipoparam ::= "IN" | "OUT" | "INOUT"
+decfun ::=  "FUNCTION" IDENT "(" nomparamlist ")"
+tipo "::" IDENT ";"
+    dec_f_paramlist
+    dec_d_paramlist
+    "END" "FUNCTION" IDENT
+dec_f_paramlist ::= ʎ
+    | dec_f_paramlist tipo "," "INTENT" "(" "IN" ")"
+    IDENT ";"
+
+
+
+
+sent ::= IDENT "=" exp ";" | proc_call ";"
+exp ::= exp op exp | factor
+op ::= oparit
+oparit ::= "+" | "-" | "*" | "/"
+factor ::= simpvalue | "(" exp ")" | IDENT "(" exp explist ")" | IDENT
+explist ::= "," exp explist | ʎ
+proc_call ::= "CALL" IDENT subpparamlist
+subpparamlist ::= "(" exp explist ")" | ʎ
+
+
+
+
+subproglist ::= codproc subproglist | codfun subproglist | ʎ
+codproc ::= "SUBROUTINE" IDENT formal_paramlist
+    dec_s_paramlist
+    dcllist sentlist
+    "END" "SUBROUTINE" IDENT
+codfun ::= "FUNCTION" IDENT "(" nomparamlist ")"
+tipo "::" IDENT ";"
+    dec_f_paramlist
+    dcllist sentlist
+    IDENT "=" exp ";"
+    "END" "FUNCTION" IDENT
