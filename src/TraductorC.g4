@@ -12,6 +12,7 @@ grammar TraductorC;
 
 prg : 'PROGRAM' IDENT ';' dcllist cabecera sentlist 'END' 'PROGRAM' IDENT subproglist ;
 dcllist : dcl dcllist | ;
+//Problema, dcl podría ser lambda. Solucionar más adelante,
 cabecera : 'INTERFACE' cablist 'END' 'INTERFACE' | ;
 cablist : cab cablistP ;
 cablistP : cab cablistP | ;
@@ -25,10 +26,10 @@ La producción decsubprog presentaba recursión y ambigüedad, por lo que se tra
 sentlist : sent sentlistP ;
 sentlistP : sent sentlistP | ;
 dcl : defcte | defvar ;
-defcte : tipo ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' defcte | ;
+defcte : tipo ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' /*defcte |*/ ; // para evitar ambigüedad, se crea regla auxiliar
 ctelist : ',' IDENT '=' simpvalue ctelist | ;
 simpvalue : NUM_INT_CONST | NUM_REAL_CONST | STRING_CONST ;
-defvar : tipo '::' varlist ';' defvar | ;
+defvar : tipo '::' varlist ';' /*defvar |*/ ;
 tipo : 'INTEGER' | 'REAL' | 'CHARACTER' charlength ;
 charlength : '(' NUM_INT_CONST ')' | ;
 varlist : IDENT init varlistP ;
