@@ -97,6 +97,16 @@ public interface TraductorCListener extends ParseTreeListener {
 	 */
 	void exitDcl(TraductorCParser.DclContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TraductorCParser#dclP}.
+	 * @param ctx the parse tree
+	 */
+	void enterDclP(TraductorCParser.DclPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorCParser#dclP}.
+	 * @param ctx the parse tree
+	 */
+	void exitDclP(TraductorCParser.DclPContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TraductorCParser#defcte}.
 	 * @param ctx the parse tree
 	 */
@@ -106,6 +116,16 @@ public interface TraductorCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDefcte(TraductorCParser.DefcteContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorCParser#defvar}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefvar(TraductorCParser.DefvarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorCParser#defvar}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefvar(TraductorCParser.DefvarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TraductorCParser#ctelist}.
 	 * @param ctx the parse tree
@@ -126,16 +146,6 @@ public interface TraductorCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSimpvalue(TraductorCParser.SimpvalueContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorCParser#defvar}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefvar(TraductorCParser.DefvarContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorCParser#defvar}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefvar(TraductorCParser.DefvarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TraductorCParser#tipo}.
 	 * @param ctx the parse tree

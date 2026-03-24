@@ -124,6 +124,18 @@ public class TraductorCBaseListener implements TraductorCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDclP(TraductorCParser.DclPContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDclP(TraductorCParser.DclPContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDefcte(TraductorCParser.DefcteContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -131,6 +143,18 @@ public class TraductorCBaseListener implements TraductorCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDefcte(TraductorCParser.DefcteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefvar(TraductorCParser.DefvarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefvar(TraductorCParser.DefvarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -155,18 +179,6 @@ public class TraductorCBaseListener implements TraductorCListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSimpvalue(TraductorCParser.SimpvalueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefvar(TraductorCParser.DefvarContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefvar(TraductorCParser.DefvarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

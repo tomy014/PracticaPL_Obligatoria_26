@@ -64,11 +64,23 @@ public interface TraductorCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDcl(TraductorCParser.DclContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link TraductorCParser#dclP}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDclP(TraductorCParser.DclPContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link TraductorCParser#defcte}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDefcte(TraductorCParser.DefcteContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorCParser#defvar}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefvar(TraductorCParser.DefvarContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TraductorCParser#ctelist}.
 	 * @param ctx the parse tree
@@ -81,12 +93,6 @@ public interface TraductorCVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSimpvalue(TraductorCParser.SimpvalueContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorCParser#defvar}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefvar(TraductorCParser.DefvarContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TraductorCParser#tipo}.
 	 * @param ctx the parse tree

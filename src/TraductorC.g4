@@ -24,11 +24,13 @@ La producción decsubprog presentaba recursión y ambigüedad, por lo que se tra
 
 sentlist : sent sentlistP ;
 sentlistP : sent sentlistP | ;
-dcl : defcte | defvar ;
-defcte : tipo ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' /*defcte |*/ ; // para evitar ambigüedad, se crea regla auxiliar
+//dcl : defcte | defvar ;
+dcl : tipo dclP ;
+dclP : defcte | defvar ;
+defcte : ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' /*defcte |*/ ; // para evitar ambigüedad, se crea regla auxiliar
+defvar : '::' varlist ';' /*defvar |*/ ; //igual que defcte, se crea regla auxiliar para evitar ambigüedad
 ctelist : ',' IDENT '=' simpvalue ctelist | ;
 simpvalue : NUM_INT_CONST | NUM_REAL_CONST | STRING_CONST ;
-defvar : tipo '::' varlist ';' /*defvar |*/ ; //igual que defcte, se crea regla auxiliar para evitar ambigüedad
 tipo : 'INTEGER' | 'REAL' | 'CHARACTER' charlength ;
 charlength : '(' NUM_INT_CONST ')' | ;
 varlist : IDENT init varlistP ;
