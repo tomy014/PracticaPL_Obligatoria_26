@@ -8,7 +8,6 @@ grammar TraductorC;
   }
 }
 
-// Mantener orden original de reglas y comentarios
 
 prg : 'PROGRAM' IDENT ';' dcllist cabecera sentlist 'END' 'PROGRAM' IDENT subproglist ;
 dcllist : dcl dcllist | ;
@@ -29,7 +28,7 @@ dcl : defcte | defvar ;
 defcte : tipo ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' /*defcte |*/ ; // para evitar ambigüedad, se crea regla auxiliar
 ctelist : ',' IDENT '=' simpvalue ctelist | ;
 simpvalue : NUM_INT_CONST | NUM_REAL_CONST | STRING_CONST ;
-defvar : tipo '::' varlist ';' /*defvar |*/ ;
+defvar : tipo '::' varlist ';' /*defvar |*/ ; //igual que defcte, se crea regla auxiliar para evitar ambigüedad
 tipo : 'INTEGER' | 'REAL' | 'CHARACTER' charlength ;
 charlength : '(' NUM_INT_CONST ')' | ;
 varlist : IDENT init varlistP ;
@@ -48,16 +47,14 @@ dec_f_paramlistP : tipo ',' 'INTENT' '(' 'IN' ')' IDENT ';' dec_f_paramlistP | ;
 sent : IDENT '=' exp ';' | proc_call ';' ;
 exp : factor expP ;
 expP : op factor expP | ;
-op : '+' | '-' | '*' | '/' ;
-//Se sustituye oparit por op, porque no aporta nada nuevo, solo extiende op.
+op : '+' | '-' | '*' | '/' ; //Se sustituye oparit por op, porque no aporta nada nuevo, solo extiende op.
 factor : simpvalue | '(' exp ')' | IDENT factorP ;
 factorP : '(' exp explist ')' | ;
 explist : ',' exp explist | ;
 proc_call : 'CALL' IDENT subpparamlist ;
 subpparamlist : '(' exp explist ')' | ;
 subproglist : subprog subproglist | ;
-subprog : codproc | codfun ;
-//Para evitar ambigüedad, se crea regla auxiliar
+subprog : codproc | codfun ; //Para evitar ambigüedad, se crea regla auxiliar
 codproc : 'SUBROUTINE' IDENT formal_paramlist dec_s_paramlist dcllist sentlist 'END' 'SUBROUTINE' IDENT ;
 codfun : 'FUNCTION' IDENT '(' nomparamlist ')' tipo '::' IDENT ';' dec_f_paramlist dcllist sentlist IDENT '=' exp ';' 'END' 'FUNCTION' IDENT ;
 
@@ -68,8 +65,8 @@ codfun : 'FUNCTION' IDENT '(' nomparamlist ')' tipo '::' IDENT ';' dec_f_paramli
 fragment Letras : [a-zA-Z] ;
 fragment Digitos : [0-9] ;
 IDENT : Letras (Letras | Digitos | '_')* ;
+NUM_REAL_CONST: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
 NUM_INT_CONST : [+-]? Digitos+ ;
-NUM_REAL_CONST : [+-]? Digitos* '.' Digitos+ ([eE] [+-]? Digitos+)? ;
 STRING_CONST : '\'' ( ~['\r\n] | '\'\'' )* '\'' ;
 LINE : '{' ~('}')* '}' -> skip ;
 COMMENT : '(*' .*? '*)' -> skip ;
