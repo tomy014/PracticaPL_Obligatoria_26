@@ -58,6 +58,37 @@ subprog : codproc | codfun ; //Para evitar ambigüedad, se crea regla auxiliar
 codproc : 'SUBROUTINE' IDENT formal_paramlist dec_s_paramlist dcllist sentlist 'END' 'SUBROUTINE' IDENT ;
 codfun : 'FUNCTION' IDENT '(' nomparamlist ')' tipo '::' IDENT ';' dec_f_paramlist dcllist sentlist IDENT '=' exp ';' 'END' 'FUNCTION' IDENT ;
 
+//Traducción a sintaxtis
+/*
+program ::= defines decfuns partes
+defines ::= ʎ | "#define" IDENT ctes defines
+ctes ::= CONSTINT | CONSTFLOAT | CONSTLIT
+decfuns ::= ʎ | type restdecfun decfuns
+type ::= "void" | typevar
+restdecfun ::= IDENT "(" listparam ")" ";"
+| IDENT "(" "void" ")" ";"
+typevar ::= "char" | "int" | "float"
+listparam ::= listparam "," type IDENT dim | type IDENT dim
+dim ::= ʎ | "[""]"
+partes ::= ʎ | part partes
+part ::= type restpart
+restpart ::= IDENT "(" listparam ")" blq
+| IDENT "(" "void" ")" blq
+blq ::= "{" sentlist "}"
+
+sentlist ::= sentlist sent | sent
+sent ::= type lid ";" | IDENT "=" exp ";" | IDENT "(" lexp ")" ";"
+| IDENT "(" ")" ";" | "return" exp ";"
+lid ::= IDENT dims init | lid "," IDENT dims init
+dims ::= ʎ | "[" CONSTINT "]"
+init ::= ʎ | "=" ctes
+lexp ::= exp | lexp "," exp
+exp ::= exp op exp | factor
+op ::= "+" | "-" | "*" | "/"
+factor ::= IDENT "(" lexp ")" | IDENT "(" ")"
+| "(" exp ")" | IDENT | ctes
+*/
+
 // --------------------
 // Léxico
 // --------------------
