@@ -185,6 +185,20 @@ public class TraductorCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitDec_s_paramlistP(TraductorCParser.Dec_s_paramlistPContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDec_s_param(TraductorCParser.Dec_s_paramContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitDec_d_paramlist(TraductorCParser.Dec_d_paramlistContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

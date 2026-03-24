@@ -304,6 +304,30 @@ public class TraductorCBaseListener implements TraductorCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDec_s_paramlistP(TraductorCParser.Dec_s_paramlistPContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDec_s_paramlistP(TraductorCParser.Dec_s_paramlistPContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDec_s_param(TraductorCParser.Dec_s_paramContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDec_s_param(TraductorCParser.Dec_s_paramContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDec_d_paramlist(TraductorCParser.Dec_d_paramlistContext ctx) { }
 	/**
 	 * {@inheritDoc}

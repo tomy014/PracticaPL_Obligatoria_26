@@ -43,7 +43,10 @@ decproc : 'SUBROUTINE' IDENT formal_paramlist dec_s_paramlist 'END' 'SUBROUTINE'
 formal_paramlist : '(' nomparamlist ')' | ;
 nomparamlist : IDENT nomparamlistP ;
 nomparamlistP : ',' IDENT nomparamlistP | ;
-dec_s_paramlist : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';' dec_s_paramlist | ;
+//dec_s_paramlist : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';' dec_s_paramlist | ;
+dec_s_paramlist : dec_s_param dec_s_paramlistP ;
+dec_s_paramlistP: dec_s_param dec_s_paramlistP | ;
+dec_s_param : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';' ;
 dec_d_paramlist : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';' ;
 tipoparam : 'IN' | 'OUT' | 'INOUT' ;
 decfun : 'FUNCTION' IDENT '(' nomparamlist ')' tipo '::' IDENT ';' dec_f_paramlist dec_d_paramlist 'END' 'FUNCTION' IDENT ;
@@ -59,9 +62,10 @@ explist : ',' exp explist | ;
 proc_call : 'CALL' IDENT subpparamlist ;
 subpparamlist : '(' exp explist ')' | ;
 subproglist : subprog subproglist | ;
-subprog : codproc | codfun ; //Para evitar ambigüedad, se crea regla auxiliar
+subprog : codproc | codfun ; //Para evitar ambigüedad, se crea regla auxiliar.
 codproc : 'SUBROUTINE' IDENT formal_paramlist dec_s_paramlist dcllist sentlist 'END' 'SUBROUTINE' IDENT ;
 codfun : 'FUNCTION' IDENT '(' nomparamlist ')' tipo '::' IDENT ';' dec_f_paramlist dcllist sentlist IDENT '=' exp ';' 'END' 'FUNCTION' IDENT ;
+
 
 //Traducción a sintaxtis
 /*
@@ -94,13 +98,14 @@ factor ::= IDENT "(" lexp ")" | IDENT "(" ")"
 | "(" exp ")" | IDENT | ctes
 */
 
+
 // --------------------
 // Léxico
 // --------------------
-
 fragment Letras : [a-zA-Z] ;
 fragment Digitos : [0-9] ;
 IDENT : Letras (Letras | Digitos | '_')* ;
+//Arreglado problema con las constantes reales.
 NUM_REAL_CONST: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
 NUM_INT_CONST : [+-]? Digitos+ ;
 STRING_CONST : '\'' ( ~['\r\n] | '\'\'' )* '\'' ;

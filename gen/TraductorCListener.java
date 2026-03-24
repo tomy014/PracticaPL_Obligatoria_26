@@ -247,6 +247,26 @@ public interface TraductorCListener extends ParseTreeListener {
 	 */
 	void exitDec_s_paramlist(TraductorCParser.Dec_s_paramlistContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TraductorCParser#dec_s_paramlistP}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_s_paramlistP(TraductorCParser.Dec_s_paramlistPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorCParser#dec_s_paramlistP}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_s_paramlistP(TraductorCParser.Dec_s_paramlistPContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorCParser#dec_s_param}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_s_param(TraductorCParser.Dec_s_paramContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorCParser#dec_s_param}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_s_param(TraductorCParser.Dec_s_paramContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TraductorCParser#dec_d_paramlist}.
 	 * @param ctx the parse tree
 	 */
