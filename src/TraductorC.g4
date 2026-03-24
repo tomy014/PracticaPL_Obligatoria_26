@@ -109,6 +109,5 @@ IDENT : Letras (Letras | Digitos | '_')* ;
 NUM_REAL_CONST: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
 NUM_INT_CONST : [+-]? Digitos+ ;
 STRING_CONST : '\'' ( ~['\r\n] | '\'\'' )* '\'' ;
-LINE : '{' ~('}')* '}' -> skip ;
-COMMENT : '(*' .*? '*)' -> skip ;
+COMMENT : '!' ~[\r\n]* -> skip ;
 IGNORE : [ \t\r\n]+ -> skip ;

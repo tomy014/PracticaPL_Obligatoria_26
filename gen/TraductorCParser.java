@@ -19,8 +19,8 @@ public class TraductorCParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		IDENT=25, NUM_REAL_CONST=26, NUM_INT_CONST=27, STRING_CONST=28, LINE=29, 
-		COMMENT=30, IGNORE=31;
+		IDENT=25, NUM_REAL_CONST=26, NUM_INT_CONST=27, STRING_CONST=28, COMMENT=29, 
+		IGNORE=30;
 	public static final int
 		RULE_prg = 0, RULE_dcllist = 1, RULE_cabecera = 2, RULE_cablist = 3, RULE_cablistP = 4, 
 		RULE_cab = 5, RULE_sentlist = 6, RULE_sentlistP = 7, RULE_dcl = 8, RULE_dclP = 9, 
@@ -60,8 +60,8 @@ public class TraductorCParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, "IDENT", "NUM_REAL_CONST", "NUM_INT_CONST", "STRING_CONST", "LINE", 
-			"COMMENT", "IGNORE"
+			null, "IDENT", "NUM_REAL_CONST", "NUM_INT_CONST", "STRING_CONST", "COMMENT", 
+			"IGNORE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -2896,7 +2896,7 @@ public class TraductorCParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001f\u0179\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0004\u0001\u001e\u0179\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
 		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
 		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
 		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
