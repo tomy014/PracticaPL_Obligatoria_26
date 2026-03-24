@@ -19,7 +19,8 @@ cab : decproc | decfun ;
 
 //desaparece decsubprog al inclurise ya en cablist'
 /*
-La producción decsubprog presentaba recursión y ambigüedad, por lo que se transformó en una estructura de lista LL(1) mediante factorización, eliminando la recursión y unificando las alternativas en un único no terminal cab.
+La producción decsubprog presentaba recursión y ambigüedad, por lo que se transformó en una estructura de lista LL(1)
+mediante factorización, eliminando la recursión y unificando las alternativas en un único no terminal cab.
 */
 
 sentlist : sent sentlistP ;
@@ -27,8 +28,10 @@ sentlistP : sent sentlistP | ;
 //dcl : defcte | defvar ;
 dcl : tipo dclP ;
 dclP : defcte | defvar ;
-defcte : ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' /*defcte |*/ ; // para evitar ambigüedad, se crea regla auxiliar
-defvar : '::' varlist ';' /*defvar |*/ ; //igual que defcte, se crea regla auxiliar para evitar ambigüedad
+// para evitar ambigüedad, se crea regla auxiliar. No es necesario crear aquí lista de declaraciones.
+defcte : ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';' /*defcte |*/ ;
+ //igual que defcte, se crea regla auxiliar para evitar ambigüedad
+defvar : '::' varlist ';' /*defvar |*/ ;
 ctelist : ',' IDENT '=' simpvalue ctelist | ;
 simpvalue : NUM_INT_CONST | NUM_REAL_CONST | STRING_CONST ;
 tipo : 'INTEGER' | 'REAL' | 'CHARACTER' charlength ;
