@@ -1,4 +1,4 @@
-grammar TraductorC;
+//Original:
 
 prg ::= "PROGRAM" IDENT ";" dcllist cabecera sentlist "END"
     "PROGRAM" IDENT subproglist
