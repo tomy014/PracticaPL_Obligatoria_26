@@ -10,22 +10,24 @@ public class Main {
             // Fichero de entrada
             CharStream input = CharStreams.fromFileName(args[0]);
             // Analizador léxico
-            TraductorCLexer analex = new TraductorCLexer(input);
+            TraductorC_v2Lexer analex = new TraductorC_v2Lexer(input);
             // Declaramos los tokens
             CommonTokenStream tokens = new CommonTokenStream(analex);
-            // Analizador sintáctico
-            TraductorCParser anasint = new TraductorCParser(tokens, args[0]);
-            // Ahora puede recibir el fichero por parámetro
+            // Analizador sintácticoW
+            TraductorC_v2Parser anasint = new TraductorC_v2Parser(tokens, args[0]);
 
+            // Llamar al programa del analizador sintáctico y obtener la traducción
+            TraductorC_v2Parser.ProgramaContext tree = anasint.programa();
+            String result = tree.s;
 
-            StringBuilder output = new StringBuilder();
-            // Redirigir la salida a un fichero en .c
-            String name = args[0] + ".c";
-            FileOutputStream file = new FileOutputStream(name);
-            System.setOut(new PrintStream(file));
+            // Nombre del fichero de salida (.for -> .c)
+            String outputName = args[0].replaceAll("\\.for$", ".c");
+            if (outputName.equals(args[0])) outputName = args[0] + ".c";
 
-            //Llamar al programa del analizador sintáctico
-            anasint.prg();
+            // Escribir la traducción al fichero .c
+            try (PrintWriter pw = new PrintWriter(new FileWriter(outputName))) {
+                pw.print(result);
+            }
         }
         catch (org.antlr.v4.runtime.RecognitionException e){//Error de reconocimiento en la entrada
             System.err.println("Error (ANTLr): " + e.getMessage());
