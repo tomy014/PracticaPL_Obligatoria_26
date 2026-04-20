@@ -8,6 +8,40 @@ grammar TraductorC;
   }
 }
 
+//Traducción a sintaxtis
+/*
+program ::= defines decfuns partes
+defines ::= ʎ | "#define" IDENT ctes defines
+ctes ::= CONSTINT | CONSTFLOAT | CONSTLIT
+decfuns ::= ʎ | type restdecfun decfuns
+type ::= "void" | typevar
+restdecfun ::= IDENT "(" listparam ")" ";"
+| IDENT "(" "void" ")" ";"
+typevar ::= "char" | "int" | "float"
+listparam ::= listparam "," type IDENT dim | type IDENT dim
+dim ::= ʎ | "[""]"
+partes ::= ʎ | part partes
+part ::= type restpart
+restpart ::= IDENT "(" listparam ")" blq
+| IDENT "(" "void" ")" blq
+blq ::= "{" sentlist "}"
+
+
+programa : defines decfuns partes ;
+defines: '#define' IDENT ctes defines | ;
+ctes: CONSTINT | CONSTFLOAT | CONSTLIT;
+decfuns : type restdecfun decfuns | ;
+type : 'void' | typevar ;
+typevar : 'char' | 'int' | 'float' ;
+restdecfun : IDENT '(' listparam ')' ';' | IDENT '(' 'void' ')' ';' ;
+listparam : type IDENT dim listparamP ;
+listparamP : ',' type IDENT dim listparamP | ;
+dim : '[' ']' | ;
+partes : part partes | ;
+part : type restpart ;
+restpart : IDENT '(' listparam ')' blq | IDENT '(' 'void' ')' blq ;
+blq : '{' sentlist '}' ;
+*/
 
 prg : 'PROGRAM' IDENT ';' dcllist cabecera sentlist 'END' 'PROGRAM' IDENT subproglist ;
 dcllist : dcl dcllist | ;
@@ -66,25 +100,8 @@ subprog : codproc | codfun ; //Para evitar ambigüedad, se crea regla auxiliar.
 codproc : 'SUBROUTINE' IDENT formal_paramlist dec_s_paramlist dcllist sentlist 'END' 'SUBROUTINE' IDENT ;
 codfun : 'FUNCTION' IDENT '(' nomparamlist ')' tipo '::' IDENT ';' dec_f_paramlist dcllist sentlist IDENT '=' exp ';' 'END' 'FUNCTION' IDENT ;
 
-
-//Traducción a sintaxtis
+//Dirirgida por la sintaxis.
 /*
-program ::= defines decfuns partes
-defines ::= ʎ | "#define" IDENT ctes defines
-ctes ::= CONSTINT | CONSTFLOAT | CONSTLIT
-decfuns ::= ʎ | type restdecfun decfuns
-type ::= "void" | typevar
-restdecfun ::= IDENT "(" listparam ")" ";"
-| IDENT "(" "void" ")" ";"
-typevar ::= "char" | "int" | "float"
-listparam ::= listparam "," type IDENT dim | type IDENT dim
-dim ::= ʎ | "[""]"
-partes ::= ʎ | part partes
-part ::= type restpart
-restpart ::= IDENT "(" listparam ")" blq
-| IDENT "(" "void" ")" blq
-blq ::= "{" sentlist "}"
-
 sentlist ::= sentlist sent | sent
 sent ::= type lid ";" | IDENT "=" exp ";" | IDENT "(" lexp ")" ";"
 | IDENT "(" ")" ";" | "return" exp ";"
@@ -96,6 +113,21 @@ exp ::= exp op exp | factor
 op ::= "+" | "-" | "*" | "/"
 factor ::= IDENT "(" lexp ")" | IDENT "(" ")"
 | "(" exp ")" | IDENT | ctes
+
+
+sentlist : sent sentlistP ;
+sentlistP : sent sentlistP | ;
+sent : type lid ';' | IDENT '=' exp ';' | IDENT '(' lexp ')' ';' | IDENT '(' ')' ';' | 'return' exp ';' ;
+lid : IDENT dims init lidP ;
+lidP : ',' IDENT dims init lidP | ;
+dims : '[' CONSTINT ']' | ;
+init : '=' ctes | ;
+lexp : exp lexpP ;
+lexpP : ',' exp lexpP | ;
+exp : factor expP ;
+expP : op factor expP | ;
+op : '+' | '-' | '*' | '/' ;
+factor : IDENT '(' lexp ')' | IDENT '(' ')' | '(' exp ')' | IDENT | ctes ;
 */
 
 

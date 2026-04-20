@@ -3,7 +3,7 @@ import org.antlr.v4.runtime.*;
 
 public class Main {
     public static void main(String[] args) {
-        /*Transformar el archivo que recibe como parámetro (un fichero .pas) por un fichero resultante .c
+        /*Transformar el archivo que recibe como parámetro (un fichero .for) por un fichero resultante .c
          *
          */
         try {
