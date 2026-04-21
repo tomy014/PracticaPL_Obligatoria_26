@@ -17,7 +17,7 @@ public class Main {
             TraductorC_v2Parser anasint = new TraductorC_v2Parser(tokens, args[0]);
 
             // Llamar al programa del analizador sintáctico y obtener la traducción
-            TraductorC_v2Parser.ProgramaContext tree = anasint.programa();
+            TraductorC_v2Parser.PrgContext tree = anasint.prg();
             String result = tree.s;
 
             // Nombre del fichero de salida (.for -> .c)

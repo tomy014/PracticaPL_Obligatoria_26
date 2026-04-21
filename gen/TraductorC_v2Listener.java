@@ -7,145 +7,65 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface TraductorC_v2Listener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#programa}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#prg}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrograma(TraductorC_v2Parser.ProgramaContext ctx);
+	void enterPrg(TraductorC_v2Parser.PrgContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#programa}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#prg}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrograma(TraductorC_v2Parser.ProgramaContext ctx);
+	void exitPrg(TraductorC_v2Parser.PrgContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#defines}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dcllist}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefines(TraductorC_v2Parser.DefinesContext ctx);
+	void enterDcllist(TraductorC_v2Parser.DcllistContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#defines}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dcllist}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefines(TraductorC_v2Parser.DefinesContext ctx);
+	void exitDcllist(TraductorC_v2Parser.DcllistContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#ctes}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#cabecera}.
 	 * @param ctx the parse tree
 	 */
-	void enterCtes(TraductorC_v2Parser.CtesContext ctx);
+	void enterCabecera(TraductorC_v2Parser.CabeceraContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#ctes}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#cabecera}.
 	 * @param ctx the parse tree
 	 */
-	void exitCtes(TraductorC_v2Parser.CtesContext ctx);
+	void exitCabecera(TraductorC_v2Parser.CabeceraContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#decfuns}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#cablist}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecfuns(TraductorC_v2Parser.DecfunsContext ctx);
+	void enterCablist(TraductorC_v2Parser.CablistContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#decfuns}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#cablist}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecfuns(TraductorC_v2Parser.DecfunsContext ctx);
+	void exitCablist(TraductorC_v2Parser.CablistContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#type}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#cablistP}.
 	 * @param ctx the parse tree
 	 */
-	void enterType(TraductorC_v2Parser.TypeContext ctx);
+	void enterCablistP(TraductorC_v2Parser.CablistPContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#type}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#cablistP}.
 	 * @param ctx the parse tree
 	 */
-	void exitType(TraductorC_v2Parser.TypeContext ctx);
+	void exitCablistP(TraductorC_v2Parser.CablistPContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#typevar}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#cab}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypevar(TraductorC_v2Parser.TypevarContext ctx);
+	void enterCab(TraductorC_v2Parser.CabContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#typevar}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#cab}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypevar(TraductorC_v2Parser.TypevarContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#restdecfun}.
-	 * @param ctx the parse tree
-	 */
-	void enterRestdecfun(TraductorC_v2Parser.RestdecfunContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#restdecfun}.
-	 * @param ctx the parse tree
-	 */
-	void exitRestdecfun(TraductorC_v2Parser.RestdecfunContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#listparam}.
-	 * @param ctx the parse tree
-	 */
-	void enterListparam(TraductorC_v2Parser.ListparamContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#listparam}.
-	 * @param ctx the parse tree
-	 */
-	void exitListparam(TraductorC_v2Parser.ListparamContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#listparamP}.
-	 * @param ctx the parse tree
-	 */
-	void enterListparamP(TraductorC_v2Parser.ListparamPContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#listparamP}.
-	 * @param ctx the parse tree
-	 */
-	void exitListparamP(TraductorC_v2Parser.ListparamPContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dim}.
-	 * @param ctx the parse tree
-	 */
-	void enterDim(TraductorC_v2Parser.DimContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dim}.
-	 * @param ctx the parse tree
-	 */
-	void exitDim(TraductorC_v2Parser.DimContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#partes}.
-	 * @param ctx the parse tree
-	 */
-	void enterPartes(TraductorC_v2Parser.PartesContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#partes}.
-	 * @param ctx the parse tree
-	 */
-	void exitPartes(TraductorC_v2Parser.PartesContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#part}.
-	 * @param ctx the parse tree
-	 */
-	void enterPart(TraductorC_v2Parser.PartContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#part}.
-	 * @param ctx the parse tree
-	 */
-	void exitPart(TraductorC_v2Parser.PartContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#restpart}.
-	 * @param ctx the parse tree
-	 */
-	void enterRestpart(TraductorC_v2Parser.RestpartContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#restpart}.
-	 * @param ctx the parse tree
-	 */
-	void exitRestpart(TraductorC_v2Parser.RestpartContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#blq}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlq(TraductorC_v2Parser.BlqContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#blq}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlq(TraductorC_v2Parser.BlqContext ctx);
+	void exitCab(TraductorC_v2Parser.CabContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TraductorC_v2Parser#sentlist}.
 	 * @param ctx the parse tree
@@ -167,45 +87,105 @@ public interface TraductorC_v2Listener extends ParseTreeListener {
 	 */
 	void exitSentlistP(TraductorC_v2Parser.SentlistPContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#sent}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dcl}.
 	 * @param ctx the parse tree
 	 */
-	void enterSent(TraductorC_v2Parser.SentContext ctx);
+	void enterDcl(TraductorC_v2Parser.DclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#sent}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dcl}.
 	 * @param ctx the parse tree
 	 */
-	void exitSent(TraductorC_v2Parser.SentContext ctx);
+	void exitDcl(TraductorC_v2Parser.DclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#lid}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dclP}.
 	 * @param ctx the parse tree
 	 */
-	void enterLid(TraductorC_v2Parser.LidContext ctx);
+	void enterDclP(TraductorC_v2Parser.DclPContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#lid}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dclP}.
 	 * @param ctx the parse tree
 	 */
-	void exitLid(TraductorC_v2Parser.LidContext ctx);
+	void exitDclP(TraductorC_v2Parser.DclPContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#lidP}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#defcte}.
 	 * @param ctx the parse tree
 	 */
-	void enterLidP(TraductorC_v2Parser.LidPContext ctx);
+	void enterDefcte(TraductorC_v2Parser.DefcteContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#lidP}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#defcte}.
 	 * @param ctx the parse tree
 	 */
-	void exitLidP(TraductorC_v2Parser.LidPContext ctx);
+	void exitDefcte(TraductorC_v2Parser.DefcteContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dims}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#defvar}.
 	 * @param ctx the parse tree
 	 */
-	void enterDims(TraductorC_v2Parser.DimsContext ctx);
+	void enterDefvar(TraductorC_v2Parser.DefvarContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dims}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#defvar}.
 	 * @param ctx the parse tree
 	 */
-	void exitDims(TraductorC_v2Parser.DimsContext ctx);
+	void exitDefvar(TraductorC_v2Parser.DefvarContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#ctelist}.
+	 * @param ctx the parse tree
+	 */
+	void enterCtelist(TraductorC_v2Parser.CtelistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#ctelist}.
+	 * @param ctx the parse tree
+	 */
+	void exitCtelist(TraductorC_v2Parser.CtelistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#simpvalue}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpvalue(TraductorC_v2Parser.SimpvalueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#simpvalue}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpvalue(TraductorC_v2Parser.SimpvalueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#tipo}.
+	 * @param ctx the parse tree
+	 */
+	void enterTipo(TraductorC_v2Parser.TipoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#tipo}.
+	 * @param ctx the parse tree
+	 */
+	void exitTipo(TraductorC_v2Parser.TipoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#charlength}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharlength(TraductorC_v2Parser.CharlengthContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#charlength}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharlength(TraductorC_v2Parser.CharlengthContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#varlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarlist(TraductorC_v2Parser.VarlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#varlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarlist(TraductorC_v2Parser.VarlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#varlistP}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarlistP(TraductorC_v2Parser.VarlistPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#varlistP}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarlistP(TraductorC_v2Parser.VarlistPContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TraductorC_v2Parser#init}.
 	 * @param ctx the parse tree
@@ -217,25 +197,135 @@ public interface TraductorC_v2Listener extends ParseTreeListener {
 	 */
 	void exitInit(TraductorC_v2Parser.InitContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#lexp}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#decproc}.
 	 * @param ctx the parse tree
 	 */
-	void enterLexp(TraductorC_v2Parser.LexpContext ctx);
+	void enterDecproc(TraductorC_v2Parser.DecprocContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#lexp}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#decproc}.
 	 * @param ctx the parse tree
 	 */
-	void exitLexp(TraductorC_v2Parser.LexpContext ctx);
+	void exitDecproc(TraductorC_v2Parser.DecprocContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TraductorC_v2Parser#lexpP}.
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#formal_paramlist}.
 	 * @param ctx the parse tree
 	 */
-	void enterLexpP(TraductorC_v2Parser.LexpPContext ctx);
+	void enterFormal_paramlist(TraductorC_v2Parser.Formal_paramlistContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TraductorC_v2Parser#lexpP}.
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#formal_paramlist}.
 	 * @param ctx the parse tree
 	 */
-	void exitLexpP(TraductorC_v2Parser.LexpPContext ctx);
+	void exitFormal_paramlist(TraductorC_v2Parser.Formal_paramlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#nomparamlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterNomparamlist(TraductorC_v2Parser.NomparamlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#nomparamlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitNomparamlist(TraductorC_v2Parser.NomparamlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#nomparamlistP}.
+	 * @param ctx the parse tree
+	 */
+	void enterNomparamlistP(TraductorC_v2Parser.NomparamlistPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#nomparamlistP}.
+	 * @param ctx the parse tree
+	 */
+	void exitNomparamlistP(TraductorC_v2Parser.NomparamlistPContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dec_s_paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_s_paramlist(TraductorC_v2Parser.Dec_s_paramlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dec_s_paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_s_paramlist(TraductorC_v2Parser.Dec_s_paramlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dec_s_paramlistP}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_s_paramlistP(TraductorC_v2Parser.Dec_s_paramlistPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dec_s_paramlistP}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_s_paramlistP(TraductorC_v2Parser.Dec_s_paramlistPContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dec_s_param}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_s_param(TraductorC_v2Parser.Dec_s_paramContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dec_s_param}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_s_param(TraductorC_v2Parser.Dec_s_paramContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dec_d_paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dec_d_paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#tipoparam}.
+	 * @param ctx the parse tree
+	 */
+	void enterTipoparam(TraductorC_v2Parser.TipoparamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#tipoparam}.
+	 * @param ctx the parse tree
+	 */
+	void exitTipoparam(TraductorC_v2Parser.TipoparamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#decfun}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecfun(TraductorC_v2Parser.DecfunContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#decfun}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecfun(TraductorC_v2Parser.DecfunContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dec_f_paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_f_paramlist(TraductorC_v2Parser.Dec_f_paramlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dec_f_paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_f_paramlist(TraductorC_v2Parser.Dec_f_paramlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#dec_f_paramlistP}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec_f_paramlistP(TraductorC_v2Parser.Dec_f_paramlistPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#dec_f_paramlistP}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec_f_paramlistP(TraductorC_v2Parser.Dec_f_paramlistPContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#sent}.
+	 * @param ctx the parse tree
+	 */
+	void enterSent(TraductorC_v2Parser.SentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#sent}.
+	 * @param ctx the parse tree
+	 */
+	void exitSent(TraductorC_v2Parser.SentContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TraductorC_v2Parser#exp}.
 	 * @param ctx the parse tree
@@ -276,4 +366,84 @@ public interface TraductorC_v2Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFactor(TraductorC_v2Parser.FactorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#factorP}.
+	 * @param ctx the parse tree
+	 */
+	void enterFactorP(TraductorC_v2Parser.FactorPContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#factorP}.
+	 * @param ctx the parse tree
+	 */
+	void exitFactorP(TraductorC_v2Parser.FactorPContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#explist}.
+	 * @param ctx the parse tree
+	 */
+	void enterExplist(TraductorC_v2Parser.ExplistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#explist}.
+	 * @param ctx the parse tree
+	 */
+	void exitExplist(TraductorC_v2Parser.ExplistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#proc_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterProc_call(TraductorC_v2Parser.Proc_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#proc_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitProc_call(TraductorC_v2Parser.Proc_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#subpparamlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubpparamlist(TraductorC_v2Parser.SubpparamlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#subpparamlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubpparamlist(TraductorC_v2Parser.SubpparamlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#subproglist}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubproglist(TraductorC_v2Parser.SubproglistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#subproglist}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubproglist(TraductorC_v2Parser.SubproglistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#subprog}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubprog(TraductorC_v2Parser.SubprogContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#subprog}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubprog(TraductorC_v2Parser.SubprogContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#codproc}.
+	 * @param ctx the parse tree
+	 */
+	void enterCodproc(TraductorC_v2Parser.CodprocContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#codproc}.
+	 * @param ctx the parse tree
+	 */
+	void exitCodproc(TraductorC_v2Parser.CodprocContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TraductorC_v2Parser#codfun}.
+	 * @param ctx the parse tree
+	 */
+	void enterCodfun(TraductorC_v2Parser.CodfunContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TraductorC_v2Parser#codfun}.
+	 * @param ctx the parse tree
+	 */
+	void exitCodfun(TraductorC_v2Parser.CodfunContext ctx);
 }

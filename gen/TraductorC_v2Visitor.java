@@ -10,89 +10,41 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface TraductorC_v2Visitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#programa}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#prg}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrograma(TraductorC_v2Parser.ProgramaContext ctx);
+	T visitPrg(TraductorC_v2Parser.PrgContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#defines}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dcllist}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefines(TraductorC_v2Parser.DefinesContext ctx);
+	T visitDcllist(TraductorC_v2Parser.DcllistContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#ctes}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#cabecera}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCtes(TraductorC_v2Parser.CtesContext ctx);
+	T visitCabecera(TraductorC_v2Parser.CabeceraContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#decfuns}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#cablist}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDecfuns(TraductorC_v2Parser.DecfunsContext ctx);
+	T visitCablist(TraductorC_v2Parser.CablistContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#type}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#cablistP}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType(TraductorC_v2Parser.TypeContext ctx);
+	T visitCablistP(TraductorC_v2Parser.CablistPContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#typevar}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#cab}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypevar(TraductorC_v2Parser.TypevarContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#restdecfun}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRestdecfun(TraductorC_v2Parser.RestdecfunContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#listparam}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListparam(TraductorC_v2Parser.ListparamContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#listparamP}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListparamP(TraductorC_v2Parser.ListparamPContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dim}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDim(TraductorC_v2Parser.DimContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#partes}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPartes(TraductorC_v2Parser.PartesContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#part}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPart(TraductorC_v2Parser.PartContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#restpart}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRestpart(TraductorC_v2Parser.RestpartContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#blq}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlq(TraductorC_v2Parser.BlqContext ctx);
+	T visitCab(TraductorC_v2Parser.CabContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TraductorC_v2Parser#sentlist}.
 	 * @param ctx the parse tree
@@ -106,29 +58,65 @@ public interface TraductorC_v2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSentlistP(TraductorC_v2Parser.SentlistPContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#sent}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dcl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSent(TraductorC_v2Parser.SentContext ctx);
+	T visitDcl(TraductorC_v2Parser.DclContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#lid}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dclP}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLid(TraductorC_v2Parser.LidContext ctx);
+	T visitDclP(TraductorC_v2Parser.DclPContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#lidP}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#defcte}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLidP(TraductorC_v2Parser.LidPContext ctx);
+	T visitDefcte(TraductorC_v2Parser.DefcteContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dims}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#defvar}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDims(TraductorC_v2Parser.DimsContext ctx);
+	T visitDefvar(TraductorC_v2Parser.DefvarContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#ctelist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtelist(TraductorC_v2Parser.CtelistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#simpvalue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpvalue(TraductorC_v2Parser.SimpvalueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#tipo}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTipo(TraductorC_v2Parser.TipoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#charlength}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCharlength(TraductorC_v2Parser.CharlengthContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#varlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarlist(TraductorC_v2Parser.VarlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#varlistP}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarlistP(TraductorC_v2Parser.VarlistPContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TraductorC_v2Parser#init}.
 	 * @param ctx the parse tree
@@ -136,17 +124,83 @@ public interface TraductorC_v2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInit(TraductorC_v2Parser.InitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#lexp}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#decproc}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLexp(TraductorC_v2Parser.LexpContext ctx);
+	T visitDecproc(TraductorC_v2Parser.DecprocContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#lexpP}.
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#formal_paramlist}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLexpP(TraductorC_v2Parser.LexpPContext ctx);
+	T visitFormal_paramlist(TraductorC_v2Parser.Formal_paramlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#nomparamlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNomparamlist(TraductorC_v2Parser.NomparamlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#nomparamlistP}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNomparamlistP(TraductorC_v2Parser.NomparamlistPContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_s_paramlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec_s_paramlist(TraductorC_v2Parser.Dec_s_paramlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_s_paramlistP}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec_s_paramlistP(TraductorC_v2Parser.Dec_s_paramlistPContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_s_param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec_s_param(TraductorC_v2Parser.Dec_s_paramContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_d_paramlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#tipoparam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTipoparam(TraductorC_v2Parser.TipoparamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#decfun}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecfun(TraductorC_v2Parser.DecfunContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_f_paramlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec_f_paramlist(TraductorC_v2Parser.Dec_f_paramlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_f_paramlistP}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec_f_paramlistP(TraductorC_v2Parser.Dec_f_paramlistPContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#sent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSent(TraductorC_v2Parser.SentContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TraductorC_v2Parser#exp}.
 	 * @param ctx the parse tree
@@ -171,4 +225,52 @@ public interface TraductorC_v2Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFactor(TraductorC_v2Parser.FactorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#factorP}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFactorP(TraductorC_v2Parser.FactorPContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#explist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExplist(TraductorC_v2Parser.ExplistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#proc_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProc_call(TraductorC_v2Parser.Proc_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#subpparamlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubpparamlist(TraductorC_v2Parser.SubpparamlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#subproglist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubproglist(TraductorC_v2Parser.SubproglistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#subprog}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubprog(TraductorC_v2Parser.SubprogContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#codproc}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCodproc(TraductorC_v2Parser.CodprocContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TraductorC_v2Parser#codfun}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCodfun(TraductorC_v2Parser.CodfunContext ctx);
 }

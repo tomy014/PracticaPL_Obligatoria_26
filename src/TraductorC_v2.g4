@@ -1,201 +1,210 @@
 grammar TraductorC_v2;
-//Traducción dirigida por sintaxis a C
+// Traducción dirigida por sintaxis: Lenguaje fuente (Fortran-like) -> Lenguaje final (C-like)
 
 @parser::members {
   private String inputFileName;
-  public TraductorCParser(org.antlr.v4.runtime.TokenStream input, String fileName) {
+  private StringBuilder definesBuffer = new StringBuilder();
+
+  public TraductorC_v2Parser(org.antlr.v4.runtime.TokenStream input, String fileName) {
     this(input);
     this.inputFileName = fileName;
   }
+
+  private String convertString(String s) {
+    if (s.startsWith("\"")) return s;
+    String inner = s.substring(1, s.length() - 1);
+    inner = inner.replace("''", "'");
+    inner = inner.replace("\"", "\\\"");
+    return "\"" + inner + "\"";
+  }
 }
 
-/*
-program ::= defines decfuns partes
-defines ::= ʎ | "#define" IDENT ctes defines
-ctes ::= CONSTINT | CONSTFLOAT | CONSTLIT
-decfuns ::= ʎ | type restdecfun decfuns
-type ::= "void" | typevar
-restdecfun ::= IDENT "(" listparam ")" ";"
-| IDENT "(" "void" ")" ";"
-typevar ::= "char" | "int" | "float"
-listparam ::= listparam "," type IDENT dim | type IDENT dim
-dim ::= ʎ | "[""]"
-partes ::= ʎ | part partes
-part ::= type restpart
-restpart ::= IDENT "(" listparam ")" blq
-| IDENT "(" "void" ")" blq
-blq ::= "{" sentlist "}"
-*/
+// --------------------
+// Reglas sintácticas
+// --------------------
 
-programa returns [String s]
-  : defines decfuns partes
-    { $s = $defines.s + $decfuns.s + $partes.s; }
+prg returns [String s]
+  : 'PROGRAM' IDENT ';' dcllist cabecera sentlist 'END' 'PROGRAM' IDENT subproglist
+    { $s = definesBuffer.toString()
+           + $cabecera.s
+           + $subproglist.s
+           + "void main(void)\n{\n" + $dcllist.s + $sentlist.s + "}\n"; }
   ;
 
-defines returns [String s]
-  : '#define' IDENT ctes defines
-    { $s = "#define " + $IDENT.text + " " + $ctes.s + "\n" + $defines.s; }
+dcllist returns [String s]
+  : dcl dcllist { $s = $dcl.s + $dcllist.s; }
+  |             { $s = ""; }
+  ;
+
+cabecera returns [String s]
+  : 'INTERFACE' cablist 'END' 'INTERFACE'
+    { $s = $cablist.s + "\n"; }
   |
     { $s = ""; }
   ;
 
-ctes returns [String s]
-  : CONSTINT   { $s = $CONSTINT.text; }
-  | CONSTFLOAT { $s = $CONSTFLOAT.text; }
-  | CONSTLIT   { $s = $CONSTLIT.text; }
+cablist returns [String s]
+  : cab cablistP { $s = $cab.s + $cablistP.s; }
   ;
 
-decfuns returns [String s]
-  : type restdecfun decfuns
-    { $s = $type.s + " " + $restdecfun.s + $decfuns.s; }
-  |
-    { $s = ""; }
+cablistP returns [String s]
+  : cab cablistP { $s = $cab.s + $cablistP.s; }
+  |              { $s = ""; }
   ;
 
-type returns [String s]
-  : 'void'   { $s = "void"; }
-  | typevar  { $s = $typevar.s; }
+cab returns [String s]
+  : decproc { $s = $decproc.s; }
+  | decfun  { $s = $decfun.s; }
   ;
-
-typevar returns [String s]
-  : 'char'  { $s = "char"; }
-  | 'int'   { $s = "int"; }
-  | 'float' { $s = "float"; }
-  ;
-
-restdecfun returns [String s]
-  : IDENT '(' listparam ')' ';'
-    { $s = $IDENT.text + "(" + $listparam.s + ");\n"; }
-  | IDENT '(' 'void' ')' ';'
-    { $s = $IDENT.text + "(void);\n"; }
-  ;
-
-listparam returns [String s]
-  : type IDENT dim listparamP
-    { $s = $type.s + " " + $IDENT.text + $dim.s + $listparamP.s; }
-  ;
-
-listparamP returns [String s]
-  : ',' type IDENT dim listparamP
-    { $s = ", " + $type.s + " " + $IDENT.text + $dim.s + $listparamP.s; }
-  |
-    { $s = ""; }
-  ;
-
-dim returns [String s]
-  : '[' ']' { $s = "[]"; }
-  |         { $s = ""; }
-  ;
-
-partes returns [String s]
-  : part partes
-    { $s = $part.s + $partes.s; }
-  |
-    { $s = ""; }
-  ;
-
-part returns [String s]
-  : type restpart
-    { $s = $type.s + " " + $restpart.s; }
-  ;
-
-restpart returns [String s]
-  : IDENT '(' listparam ')' blq
-    { $s = $IDENT.text + "(" + $listparam.s + ")\n" + $blq.s; }
-  | IDENT '(' 'void' ')' blq
-    { $s = $IDENT.text + "(void)\n" + $blq.s; }
-  ;
-
-blq returns [String s]
-  : '{' sentlist '}'
-    { $s = "{\n" + $sentlist.s + "}\n"; }
-  ;
-
-/*
-sentlist ::= sentlist sent | sent
-sent ::= type lid ";" | IDENT "=" exp ";" | IDENT "(" lexp ")" ";"
-| IDENT "(" ")" ";" | "return" exp ";"
-lid ::= IDENT dims init | lid "," IDENT dims init
-dims ::= ʎ | "[" CONSTINT "]"
-init ::= ʎ | "=" ctes
-lexp ::= exp | lexp "," exp
-exp ::= exp op exp | factor
-op ::= "+" | "-" | "*" | "/"
-factor ::= IDENT "(" lexp ")" | IDENT "(" ")"
-| "(" exp ")" | IDENT | ctes
-*/
 
 sentlist returns [String s]
-  : sent sentlistP
-    { $s = $sent.s + $sentlistP.s; }
+  : sent sentlistP { $s = $sent.s + $sentlistP.s; }
   ;
 
 sentlistP returns [String s]
-  : sent sentlistP
-    { $s = $sent.s + $sentlistP.s; }
+  : sent sentlistP { $s = $sent.s + $sentlistP.s; }
+  |                { $s = ""; }
+  ;
+
+dcl returns [String s]
+  : tipo dclP[$tipo.ctype, $tipo.arraydim] { $s = $dclP.s; }
+  ;
+
+dclP[String ctype, String arraydim] returns [String s]
+  : defcte[$ctype]             { $s = ""; }
+  | defvar[$ctype, $arraydim]  { $s = $defvar.s; }
+  ;
+
+defcte[String ctype] returns [String s]
+  : ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';'
+    { definesBuffer.append("#define " + $IDENT.text + " " + $simpvalue.s + "\n");
+      definesBuffer.append($ctelist.s);
+      $s = ""; }
+  ;
+
+defvar[String ctype, String arraydim] returns [String s]
+  : '::' varlist[$ctype, $arraydim] ';'
+    { $s = "\t" + $ctype + " " + $varlist.s + ";\n"; }
+  ;
+
+ctelist returns [String s]
+  : ',' IDENT '=' simpvalue ctelist
+    { $s = "#define " + $IDENT.text + " " + $simpvalue.s + "\n" + $ctelist.s; }
   |
     { $s = ""; }
   ;
 
-sent returns [String s]
-  : type lid ';'
-    { $s = "\t" + $type.s + " " + $lid.s + ";\n"; }
-  | IDENT '=' exp ';'
-    { $s = "\t" + $IDENT.text + " = " + $exp.s + ";\n"; }
-  | IDENT '(' lexp ')' ';'
-    { $s = "\t" + $IDENT.text + "(" + $lexp.s + ");\n"; }
-  | IDENT '(' ')' ';'
-    { $s = "\t" + $IDENT.text + "();\n"; }
-  | 'return' exp ';'
-    { $s = "\treturn " + $exp.s + ";\n"; }
+simpvalue returns [String s]
+  : NUM_INT_CONST  { $s = $NUM_INT_CONST.text; }
+  | NUM_REAL_CONST { $s = $NUM_REAL_CONST.text; }
+  | STRING_CONST   { $s = convertString($STRING_CONST.text); }
   ;
 
-lid returns [String s]
-  : IDENT dims init lidP
-    { $s = $IDENT.text + $dims.s + $init.s + $lidP.s; }
+tipo returns [String ctype, String arraydim]
+  : 'INTEGER'              { $ctype = "int";   $arraydim = ""; }
+  | 'REAL'                 { $ctype = "float"; $arraydim = ""; }
+  | 'CHARACTER' charlength { $ctype = "char";  $arraydim = $charlength.s; }
   ;
 
-lidP returns [String s]
-  : ',' IDENT dims init lidP
-    { $s = ", " + $IDENT.text + $dims.s + $init.s + $lidP.s; }
-  |
-    { $s = ""; }
+charlength returns [String s]
+  : '(' NUM_INT_CONST ')' { $s = "[" + $NUM_INT_CONST.text + "]"; }
+  |                       { $s = ""; }
   ;
 
-dims returns [String s]
-  : '[' CONSTINT ']'
-    { $s = "[" + $CONSTINT.text + "]"; }
+varlist[String ctype, String arraydim] returns [String s]
+  : IDENT init varlistP[$ctype, $arraydim]
+    { $s = $IDENT.text + $arraydim + $init.s + $varlistP.s; }
+  ;
+
+varlistP[String ctype, String arraydim] returns [String s]
+  : ',' IDENT init varlistP[$ctype, $arraydim]
+    { $s = ", " + $IDENT.text + $arraydim + $init.s + $varlistP.s; }
   |
     { $s = ""; }
   ;
 
 init returns [String s]
-  : '=' ctes { $s = " = " + $ctes.s; }
-  |          { $s = ""; }
+  : '=' simpvalue { $s = " = " + $simpvalue.s; }
+  |               { $s = ""; }
   ;
 
-lexp returns [String s]
-  : exp lexpP
-    { $s = $exp.s + $lexpP.s; }
+decproc returns [String s]
+  : 'SUBROUTINE' fname=IDENT formal_paramlist dec_s_paramlist 'END' 'SUBROUTINE' IDENT
+    { $s = "void " + $fname.text + "(" + ($dec_s_paramlist.s.isEmpty() ? "void" : $dec_s_paramlist.s) + ");\n"; }
   ;
 
-lexpP returns [String s]
-  : ',' exp lexpP
-    { $s = ", " + $exp.s + $lexpP.s; }
+formal_paramlist returns [String s]
+  : '(' nomparamlist ')' { $s = $nomparamlist.s; }
+  |                      { $s = ""; }
+  ;
+
+nomparamlist returns [String s]
+  : IDENT nomparamlistP { $s = $IDENT.text + $nomparamlistP.s; }
+  ;
+
+nomparamlistP returns [String s]
+  : ',' IDENT nomparamlistP { $s = ", " + $IDENT.text + $nomparamlistP.s; }
+  |                         { $s = ""; }
+  ;
+
+dec_s_paramlist returns [String s]
+  : dec_s_param dec_s_paramlistP
+    { $s = $dec_s_param.s + $dec_s_paramlistP.s; }
   |
     { $s = ""; }
+  ;
+
+dec_s_paramlistP returns [String s]
+  : dec_s_param dec_s_paramlistP
+    { $s = ", " + $dec_s_param.s + $dec_s_paramlistP.s; }
+  |
+    { $s = ""; }
+  ;
+
+dec_s_param returns [String s]
+  : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';'
+    { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); }
+  ;
+
+dec_d_paramlist returns [String s]
+  : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';'
+    { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); }
+  ;
+
+tipoparam : 'IN' | 'OUT' | 'INOUT' ;
+
+decfun returns [String s]
+  : 'FUNCTION' fname=IDENT '(' nomparamlist ')' tipo '::' retvar=IDENT ';'
+    dec_f_paramlist dec_d_paramlist 'END' 'FUNCTION' IDENT
+    { $s = $tipo.ctype + " " + $fname.text + "(" +
+           ($dec_f_paramlist.s.isEmpty() ? "" : $dec_f_paramlist.s + ", ") +
+           $dec_d_paramlist.s + ");\n"; }
+  ;
+
+dec_f_paramlist returns [String s]
+  : dec_f_paramlistP { $s = $dec_f_paramlistP.s; }
+  ;
+
+dec_f_paramlistP returns [String s]
+  : tipo ',' 'INTENT' '(' 'IN' ')' IDENT ';' rest=dec_f_paramlistP
+    { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]") +
+           ($rest.s.isEmpty() ? "" : ", " + $rest.s); }
+  |
+    { $s = ""; }
+  ;
+
+sent returns [String s]
+  : IDENT '=' exp ';' { $s = "\t" + $IDENT.text + " = " + $exp.s + ";\n"; }
+  | proc_call ';'     { $s = "\t" + $proc_call.s + ";\n"; }
   ;
 
 exp returns [String s]
-  : factor expP
-    { $s = $factor.s + $expP.s; }
+  : factor expP { $s = $factor.s + $expP.s; }
   ;
 
 expP returns [String s]
-  : op factor expP
-    { $s = " " + $op.s + " " + $factor.s + $expP.s; }
-  |
-    { $s = ""; }
+  : op factor expP { $s = " " + $op.s + " " + $factor.s + $expP.s; }
+  |                { $s = ""; }
   ;
 
 op returns [String s]
@@ -206,22 +215,65 @@ op returns [String s]
   ;
 
 factor returns [String s]
-  : IDENT '(' lexp ')' { $s = $IDENT.text + "(" + $lexp.s + ")"; }
-  | IDENT '(' ')'      { $s = $IDENT.text + "()"; }
-  | '(' exp ')'        { $s = "(" + $exp.s + ")"; }
-  | IDENT              { $s = $IDENT.text; }
-  | ctes               { $s = $ctes.s; }
+  : simpvalue       { $s = $simpvalue.s; }
+  | '(' exp ')'     { $s = "(" + $exp.s + ")"; }
+  | IDENT factorP   { $s = $IDENT.text + $factorP.s; }
+  ;
+
+factorP returns [String s]
+  : '(' exp explist ')' { $s = "(" + $exp.s + $explist.s + ")"; }
+  |                     { $s = ""; }
+  ;
+
+explist returns [String s]
+  : ',' exp explist { $s = ", " + $exp.s + $explist.s; }
+  |                 { $s = ""; }
+  ;
+
+proc_call returns [String s]
+  : 'CALL' IDENT subpparamlist { $s = $IDENT.text + $subpparamlist.s; }
+  ;
+
+subpparamlist returns [String s]
+  : '(' exp explist ')' { $s = "(" + $exp.s + $explist.s + ")"; }
+  |                     { $s = "()"; }
+  ;
+
+subproglist returns [String s]
+  : subprog subproglist { $s = $subprog.s + $subproglist.s; }
+  |                     { $s = ""; }
+  ;
+
+subprog returns [String s]
+  : codproc { $s = $codproc.s; }
+  | codfun  { $s = $codfun.s; }
+  ;
+
+codproc returns [String s]
+  : 'SUBROUTINE' fname=IDENT formal_paramlist dec_s_paramlist dcllist sentlist
+    'END' 'SUBROUTINE' IDENT
+    { $s = "void " + $fname.text + "(" + ($dec_s_paramlist.s.isEmpty() ? "void" : $dec_s_paramlist.s) + ")\n{\n"
+           + $dcllist.s + $sentlist.s + "}\n\n"; }
+  ;
+
+codfun returns [String s]
+  : 'FUNCTION' fname=IDENT '(' nomparamlist ')' tipo '::' retvar=IDENT ';'
+    dec_f_paramlist dcllist sentlist retname=IDENT '=' exp ';'
+    'END' 'FUNCTION' IDENT
+    { $s = $tipo.ctype + " " + $fname.text + "(" + $dec_f_paramlist.s + ")\n{\n"
+           + $dcllist.s + $sentlist.s + "\treturn " + $exp.s + ";\n}\n\n"; }
   ;
 
 
 // --------------------
 // Léxico
 // --------------------
-fragment Letras : [a-zA-Z] ;
+fragment Letras  : [a-zA-Z] ;
 fragment Digitos : [0-9] ;
-IDENT : Letras (Letras | Digitos | '_')* ;
-CONSTFLOAT: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
-CONSTINT : [+-]? Digitos+ ;
-CONSTLIT : '\'' ( ~['\r\n] | '\'\'' )* '\'' ;
-COMMENT : '!' ~[\r\n]* -> skip ;
-IGNORE : [ \t\r\n]+ -> skip ;
+IDENT          : Letras (Letras | Digitos | '_')* ;
+NUM_REAL_CONST : [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
+NUM_INT_CONST  : [+-]? Digitos+ ;
+STRING_CONST   : '\'' ( ~['\r\n] | '\'\'' )* '\''
+               | '"'  ( ~["\r\n] | '\\"'  )* '"'  ;
+COMMENT        : '!' ~[\r\n]* -> skip ;
+IGNORE         : [ \t\r\n]+ -> skip ;
