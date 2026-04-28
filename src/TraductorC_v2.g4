@@ -268,12 +268,11 @@ codfun returns [String s]
 // --------------------
 // Léxico
 // --------------------
-fragment Letras  : [a-zA-Z] ;
-fragment Digitos : [0-9] ;
-IDENT          : Letras (Letras | Digitos | '_')* ;
-NUM_REAL_CONST : [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
-NUM_INT_CONST  : [+-]? Digitos+ ;
-STRING_CONST   : '\'' ( ~['\r\n] | '\'\'' )* '\''
-               | '"'  ( ~["\r\n] | '\\"'  )* '"'  ;
-COMMENT        : '!' ~[\r\n]* -> skip ;
-IGNORE         : [ \t\r\n]+ -> skip ;
+fragment Letras: [a-zA-Z] ;
+fragment Digitos: [0-9] ;
+IDENT: Letras (Letras | Digitos | '_')* ;
+NUM_REAL_CONST: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
+NUM_INT_CONST: [+-]? Digitos+ ;
+STRING_CONST: '\'' ( ~['\r\n] | '\'\'' )* '\'' | '"' ( ~["\r\n] | '\\"' )* '"' ;
+COMMENT: '!' ~[\r\n]* -> skip ;
+IGNORE: [ \t\r\n]+ -> skip ;
