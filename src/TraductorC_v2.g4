@@ -19,6 +19,7 @@ grammar TraductorC_v2;
     return "\"" + inner + "\"";
   }
 
+  // Verifica que el nombre de cierre coincida con el nombre de apertura.
   private void checkClosingName(String kind, org.antlr.v4.runtime.Token start, org.antlr.v4.runtime.Token end) {
     if (!start.getText().equals(end.getText())) {
       notifyErrorListeners(end, "el nombre de cierre de " + kind + " '" + end.getText()
@@ -26,10 +27,12 @@ grammar TraductorC_v2;
     }
   }
 
+  // Guarda el número de parámetros formales de una subrutina o función declarada en la sección INTERFACE para verificar las llamadas posteriores.
   private void saveInterfaceParams(String name, int count) {
     interfaceParams.put(name, count);
   }
 
+  // Verifica que el número de parámetros declarados en la cabecera coincida con el número de parámetros tipados en la sección INTERFACE.
   private void checkDeclaredParamCount(String kind, org.antlr.v4.runtime.Token name, int formalCount, int declaredCount) {
     if (formalCount != declaredCount) {
       notifyErrorListeners(name, "la declaracion de " + kind + " '" + name.getText()
@@ -38,6 +41,7 @@ grammar TraductorC_v2;
     }
   }
 
+  // Verifica que el número de argumentos en una llamada coincida con el número de parámetros declarados en la sección INTERFACE para ese subprograma.
   private void checkCallParamCount(org.antlr.v4.runtime.Token name, int actualCount) {
     Integer expectedCount = interfaceParams.get(name.getText());
     if (expectedCount != null && expectedCount != actualCount) {
@@ -46,6 +50,7 @@ grammar TraductorC_v2;
     }
   }
 
+  // Hace lo mismo que checkClosingName pero para verificar que el nombre de la variable de retorno de una función coincida con el nombre de la función.
   private void checkReturnVarName(org.antlr.v4.runtime.Token functionName, org.antlr.v4.runtime.Token returnVar) {
     if (!functionName.getText().equals(returnVar.getText())) {
       notifyErrorListeners(returnVar, "el nombre de la variable de retorno '" + returnVar.getText()
