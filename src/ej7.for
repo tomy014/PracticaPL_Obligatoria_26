@@ -9,7 +9,7 @@ CHARACTER(10) :: mensaje1 = 'Hola', mensaje2 = 'Mundo';
     INTERFACE
 
         FUNCTION Sumar(a, b)
-            INTEGER :: Sumar;
+            INTEGER :: Restar;
             INTEGER, INTENT(IN) a;
             INTEGER, INTENT(IN) b;
         END FUNCTION Sumar

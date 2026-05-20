@@ -155,6 +155,13 @@ public class TraductorC_v2Parser extends Parser {
 	    }
 	  }
 
+	  private void checkReturnVarName(org.antlr.v4.runtime.Token functionName, org.antlr.v4.runtime.Token returnVar) {
+	    if (!functionName.getText().equals(returnVar.getText())) {
+	      notifyErrorListeners(returnVar, "el nombre de la variable de retorno '" + returnVar.getText()
+	        + "' no coincide con el nombre de la funcion '" + functionName.getText() + "'", null);
+	    }
+	  }
+
 	public TraductorC_v2Parser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
@@ -2120,6 +2127,7 @@ public class TraductorC_v2Parser extends Parser {
 			setState(307);
 			((DecfunContext)_localctx).endname = match(IDENT);
 			 checkClosingName("funcion", ((DecfunContext)_localctx).fname, ((DecfunContext)_localctx).endname);
+			      checkReturnVarName(((DecfunContext)_localctx).fname, ((DecfunContext)_localctx).retvar);
 			      checkDeclaredParamCount("funcion", ((DecfunContext)_localctx).fname, ((DecfunContext)_localctx).nomparamlist.n, ((DecfunContext)_localctx).dec_f_paramlist.n + ((DecfunContext)_localctx).dec_d_paramlist.n);
 			      saveInterfaceParams((((DecfunContext)_localctx).fname!=null?((DecfunContext)_localctx).fname.getText():null), ((DecfunContext)_localctx).nomparamlist.n);
 			      ((DecfunContext)_localctx).s =  ((DecfunContext)_localctx).tipo.ctype + " " + (((DecfunContext)_localctx).fname!=null?((DecfunContext)_localctx).fname.getText():null) + "(" +
@@ -3250,7 +3258,8 @@ public class TraductorC_v2Parser extends Parser {
 			setState(450);
 			((CodfunContext)_localctx).endname = match(IDENT);
 			 checkClosingName("funcion", ((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).endname);
-			      checkClosingName("variable de retorno de funcion", ((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).retname);
+			      checkReturnVarName(((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).retvar);
+			      checkReturnVarName(((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).retname);
 			      checkDeclaredParamCount("funcion", ((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).nomparamlist.n, ((CodfunContext)_localctx).dec_f_paramlist.n);
 			      ((CodfunContext)_localctx).s =  ((CodfunContext)_localctx).tipo.ctype + " " + (((CodfunContext)_localctx).fname!=null?((CodfunContext)_localctx).fname.getText():null) + "(" + ((CodfunContext)_localctx).dec_f_paramlist.s + ")\n{\n"
 			           + ((CodfunContext)_localctx).dcllist.s + ((CodfunContext)_localctx).sentlist.s + "\treturn " + ((CodfunContext)_localctx).exp.s + ";\n}\n\n"; 

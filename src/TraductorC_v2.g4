@@ -45,6 +45,13 @@ grammar TraductorC_v2;
         + actualCount + " parametros, pero su declaracion tiene " + expectedCount, null);
     }
   }
+
+  private void checkReturnVarName(org.antlr.v4.runtime.Token functionName, org.antlr.v4.runtime.Token returnVar) {
+    if (!functionName.getText().equals(returnVar.getText())) {
+      notifyErrorListeners(returnVar, "el nombre de la variable de retorno '" + returnVar.getText()
+        + "' no coincide con el nombre de la funcion '" + functionName.getText() + "'", null);
+    }
+  }
 }
 
 // --------------------
@@ -209,6 +216,7 @@ decfun returns [String s]
   : 'FUNCTION' fname=IDENT '(' nomparamlist ')' tipo '::' retvar=IDENT ';'
     dec_f_paramlist dec_d_paramlist 'END' 'FUNCTION' endname=IDENT
     { checkClosingName("funcion", $fname, $endname);
+      checkReturnVarName($fname, $retvar);
       checkDeclaredParamCount("funcion", $fname, $nomparamlist.n, $dec_f_paramlist.n + $dec_d_paramlist.n);
       saveInterfaceParams($fname.text, $nomparamlist.n);
       $s = $tipo.ctype + " " + $fname.text + "(" +
@@ -301,7 +309,8 @@ codfun returns [String s]
     dec_f_paramlist dcllist sentlist retname=IDENT '=' exp ';'
     'END' 'FUNCTION' endname=IDENT
     { checkClosingName("funcion", $fname, $endname);
-      checkClosingName("variable de retorno de funcion", $fname, $retname);
+      checkReturnVarName($fname, $retvar);
+      checkReturnVarName($fname, $retname);
       checkDeclaredParamCount("funcion", $fname, $nomparamlist.n, $dec_f_paramlist.n);
       $s = $tipo.ctype + " " + $fname.text + "(" + $dec_f_paramlist.s + ")\n{\n"
            + $dcllist.s + $sentlist.s + "\treturn " + $exp.s + ";\n}\n\n"; }
