@@ -4,6 +4,7 @@ grammar TraductorC_v2;
 @parser::members {
   private String inputFileName;
   private StringBuilder definesBuffer = new StringBuilder();
+  private java.util.Map<String, Integer> interfaceParams = new java.util.HashMap<>();
 
   public TraductorC_v2Parser(org.antlr.v4.runtime.TokenStream input, String fileName) {
     this(input);
@@ -17,6 +18,33 @@ grammar TraductorC_v2;
     inner = inner.replace("\"", "\\\"");
     return "\"" + inner + "\"";
   }
+
+  private void checkClosingName(String kind, org.antlr.v4.runtime.Token start, org.antlr.v4.runtime.Token end) {
+    if (!start.getText().equals(end.getText())) {
+      notifyErrorListeners(end, "el nombre de cierre de " + kind + " '" + end.getText()
+        + "' no coincide con '" + start.getText() + "'", null);
+    }
+  }
+
+  private void saveInterfaceParams(String name, int count) {
+    interfaceParams.put(name, count);
+  }
+
+  private void checkDeclaredParamCount(String kind, org.antlr.v4.runtime.Token name, int formalCount, int declaredCount) {
+    if (formalCount != declaredCount) {
+      notifyErrorListeners(name, "la declaracion de " + kind + " '" + name.getText()
+        + "' tiene " + formalCount + " parametros en la cabecera y " + declaredCount
+        + " parametros tipados", null);
+    }
+  }
+
+  private void checkCallParamCount(org.antlr.v4.runtime.Token name, int actualCount) {
+    Integer expectedCount = interfaceParams.get(name.getText());
+    if (expectedCount != null && expectedCount != actualCount) {
+      notifyErrorListeners(name, "la llamada a '" + name.getText() + "' tiene "
+        + actualCount + " parametros, pero su declaracion tiene " + expectedCount, null);
+    }
+  }
 }
 
 // --------------------
@@ -24,8 +52,9 @@ grammar TraductorC_v2;
 // --------------------
 // Traduce el programa principal, establece cabecera y lista de sentencias.
 prg returns [String s]
-  : 'PROGRAM' IDENT ';' dcllist cabecera sentlist 'END' 'PROGRAM' IDENT subproglist
-    { $s = definesBuffer.toString()
+  : 'PROGRAM' pname=IDENT ';' dcllist cabecera sentlist 'END' 'PROGRAM' endname=IDENT subproglist
+    { checkClosingName("programa", $pname, $endname);
+      $s = definesBuffer.toString()
            + $cabecera.s
            + $subproglist.s
            + "void main(void)\n{\n" + $dcllist.s + $sentlist.s + "}\n"; }
@@ -129,36 +158,39 @@ init returns [String s]
   ;
 // Traduce la cabecera de una subrutina a un prototipo void en C.
 decproc returns [String s]
-  : 'SUBROUTINE' fname=IDENT formal_paramlist dec_s_paramlist 'END' 'SUBROUTINE' IDENT
-    { $s = "void " + $fname.text + "(" + ($dec_s_paramlist.s.isEmpty() ? "void" : $dec_s_paramlist.s) + ");\n"; }
+  : 'SUBROUTINE' fname=IDENT formal_paramlist dec_s_paramlist 'END' 'SUBROUTINE' endname=IDENT
+    { checkClosingName("subrutina", $fname, $endname);
+      checkDeclaredParamCount("subrutina", $fname, $formal_paramlist.n, $dec_s_paramlist.n);
+      saveInterfaceParams($fname.text, $formal_paramlist.n);
+      $s = "void " + $fname.text + "(" + ($dec_s_paramlist.s.isEmpty() ? "void" : $dec_s_paramlist.s) + ");\n"; }
   ;
 // Traduce la lista formal de nombres de parámetros si aparece entre paréntesis, o genera una lista vacía si no existe.
-formal_paramlist returns [String s]
-  : '(' nomparamlist ')' { $s = $nomparamlist.s; }
-  | { $s = ""; }
+formal_paramlist returns [String s, int n]
+  : '(' nomparamlist ')' { $s = $nomparamlist.s; $n = $nomparamlist.n; }
+  | { $s = ""; $n = 0; }
   ;
 // Traduce una lista de nombres de parámetros preservando su orden.
-nomparamlist returns [String s]
-  : IDENT nomparamlistP { $s = $IDENT.text + $nomparamlistP.s; }
+nomparamlist returns [String s, int n]
+  : IDENT nomparamlistP { $s = $IDENT.text + $nomparamlistP.s; $n = 1 + $nomparamlistP.n; }
   ;
 // Lista prima de nombres de parámetros, continuando la lista con comas o terminándola.
-nomparamlistP returns [String s]
-  : ',' IDENT nomparamlistP { $s = ", " + $IDENT.text + $nomparamlistP.s; }
-  |                         { $s = ""; }
+nomparamlistP returns [String s, int n]
+  : ',' IDENT nomparamlistP { $s = ", " + $IDENT.text + $nomparamlistP.s; $n = 1 + $nomparamlistP.n; }
+  |                         { $s = ""; $n = 0; }
   ;
 // Declara y traduce la lista de parámetros de una subrutina, concatenando cada parámetro traducido.
-dec_s_paramlist returns [String s]
+dec_s_paramlist returns [String s, int n]
   : dec_s_param dec_s_paramlistP
-    { $s = $dec_s_param.s + $dec_s_paramlistP.s; }
+    { $s = $dec_s_param.s + $dec_s_paramlistP.s; $n = 1 + $dec_s_paramlistP.n; }
   |
-    { $s = ""; }
+    { $s = ""; $n = 0; }
   ;
 // Lista prima de parámetros de una subrutina, continuando la lista con comas o terminándola.
-dec_s_paramlistP returns [String s]
+dec_s_paramlistP returns [String s, int n]
   : dec_s_param dec_s_paramlistP
-    { $s = ", " + $dec_s_param.s + $dec_s_paramlistP.s; }
+    { $s = ", " + $dec_s_param.s + $dec_s_paramlistP.s; $n = 1 + $dec_s_paramlistP.n; }
   |
-    { $s = ""; }
+    { $s = ""; $n = 0; }
   ;
 // Traduce un parámetro de una subrutina,a argumento de C, incluyendo tipo, nombre y posible dimensión de array.
 dec_s_param returns [String s]
@@ -166,31 +198,35 @@ dec_s_param returns [String s]
     { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); }
   ;
 // Traduce un parámetro de una función, a argumento de C, incluyendo tipo, nombre y posible dimensión de array.
-dec_d_paramlist returns [String s]
+dec_d_paramlist returns [String s, int n]
   : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';'
-    { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); }
+    { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); $n = 1; }
   ;
 // Declara el tipo de parámetro según su intención (IN, OUT, INOUT).
 tipoparam : 'IN' | 'OUT' | 'INOUT' ;
 // Traduce la cabecera de una función, incluyendo su tipo de retorno.
 decfun returns [String s]
   : 'FUNCTION' fname=IDENT '(' nomparamlist ')' tipo '::' retvar=IDENT ';'
-    dec_f_paramlist dec_d_paramlist 'END' 'FUNCTION' IDENT
-    { $s = $tipo.ctype + " " + $fname.text + "(" +
+    dec_f_paramlist dec_d_paramlist 'END' 'FUNCTION' endname=IDENT
+    { checkClosingName("funcion", $fname, $endname);
+      checkDeclaredParamCount("funcion", $fname, $nomparamlist.n, $dec_f_paramlist.n + $dec_d_paramlist.n);
+      saveInterfaceParams($fname.text, $nomparamlist.n);
+      $s = $tipo.ctype + " " + $fname.text + "(" +
            ($dec_f_paramlist.s.isEmpty() ? "" : $dec_f_paramlist.s + ", ") +
            $dec_d_paramlist.s + ");\n"; }
   ;
 // Traduce la lista de parámetros de una función, concatenando cada parámetro traducido.
-dec_f_paramlist returns [String s]
-  : dec_f_paramlistP { $s = $dec_f_paramlistP.s; }
+dec_f_paramlist returns [String s, int n]
+  : dec_f_paramlistP { $s = $dec_f_paramlistP.s; $n = $dec_f_paramlistP.n; }
   ;
 // Lista prima de parámetros de una función, continuando la lista con comas o terminándola. Solo se traducen parámetros de entrada (INTENT(IN)).
-dec_f_paramlistP returns [String s]
+dec_f_paramlistP returns [String s, int n]
   : tipo ',' 'INTENT' '(' 'IN' ')' IDENT ';' rest=dec_f_paramlistP
     { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]") +
-           ($rest.s.isEmpty() ? "" : ", " + $rest.s); }
+           ($rest.s.isEmpty() ? "" : ", " + $rest.s);
+      $n = 1 + $rest.n; }
   |
-    { $s = ""; }
+    { $s = ""; $n = 0; }
   ;
 // Sentencia ejecutable, traducida a asignación o llamada a función según corresponda.
 sent returns [String s]
@@ -217,26 +253,28 @@ op returns [String s]
 factor returns [String s]
   : simpvalue       { $s = $simpvalue.s; }
   | '(' exp ')'     { $s = "(" + $exp.s + ")"; }
-  | IDENT factorP   { $s = $IDENT.text + $factorP.s; }
+  | IDENT factorP   { if ($factorP.isCall) checkCallParamCount($IDENT, $factorP.n);
+                      $s = $IDENT.text + $factorP.s; }
   ;
 // Lista prima de argumentos de un identificador, traduciendo la lista de argumentos si aparece entre paréntesis o generando una cadena vacía si no existe.
-factorP returns [String s]
-  : '(' exp explist ')' { $s = "(" + $exp.s + $explist.s + ")"; }
-  |                     { $s = ""; }
+factorP returns [String s, int n, boolean isCall]
+  : '(' exp explist ')' { $s = "(" + $exp.s + $explist.s + ")"; $n = 1 + $explist.n; $isCall = true; }
+  |                     { $s = ""; $n = 0; $isCall = false; }
   ;
 // Traduce el resto de argumentos de una llamada o lista de expresiones.
-explist returns [String s]
-  : ',' exp explist { $s = ", " + $exp.s + $explist.s; }
-  |                 { $s = ""; }
+explist returns [String s, int n]
+  : ',' exp explist { $s = ", " + $exp.s + $explist.s; $n = 1 + $explist.n; }
+  |                 { $s = ""; $n = 0; }
   ;
 // Traduce una llamada a procedimiento, concatenando el nombre del procedimiento con la traducción de su lista de argumentos.
 proc_call returns [String s]
-  : 'CALL' IDENT subpparamlist { $s = $IDENT.text + $subpparamlist.s; }
+  : 'CALL' IDENT subpparamlist { checkCallParamCount($IDENT, $subpparamlist.n);
+                                 $s = $IDENT.text + $subpparamlist.s; }
   ;
 // Traduce la lista de argumentos reales de una llamada; si falta, genera ().
-subpparamlist returns [String s]
-  : '(' exp explist ')' { $s = "(" + $exp.s + $explist.s + ")"; }
-  |                     { $s = "()"; }
+subpparamlist returns [String s, int n]
+  : '(' exp explist ')' { $s = "(" + $exp.s + $explist.s + ")"; $n = 1 + $explist.n; }
+  |                     { $s = "()"; $n = 0; }
   ;
 // Concatena la traducción de los subprogramas definidos en el programa principal, o genera una cadena vacía si no hay subprogramas.
 subproglist returns [String s]
@@ -251,16 +289,21 @@ subprog returns [String s]
 // Función completa, traducida a un procedimiento void en C, incluyendo su cuerpo con declaraciones y sentencias.
 codproc returns [String s]
   : 'SUBROUTINE' fname=IDENT formal_paramlist dec_s_paramlist dcllist sentlist
-    'END' 'SUBROUTINE' IDENT
-    { $s = "void " + $fname.text + "(" + ($dec_s_paramlist.s.isEmpty() ? "void" : $dec_s_paramlist.s) + ")\n{\n"
+    'END' 'SUBROUTINE' endname=IDENT
+    { checkClosingName("subrutina", $fname, $endname);
+      checkDeclaredParamCount("subrutina", $fname, $formal_paramlist.n, $dec_s_paramlist.n);
+      $s = "void " + $fname.text + "(" + ($dec_s_paramlist.s.isEmpty() ? "void" : $dec_s_paramlist.s) + ")\n{\n"
            + $dcllist.s + $sentlist.s + "}\n\n"; }
   ;
 // Función completa, traducida a una función con tipo de retorno, incluyendo su cuerpo con declaraciones y sentencias, y la instrucción return al final.
 codfun returns [String s]
   : 'FUNCTION' fname=IDENT '(' nomparamlist ')' tipo '::' retvar=IDENT ';'
     dec_f_paramlist dcllist sentlist retname=IDENT '=' exp ';'
-    'END' 'FUNCTION' IDENT
-    { $s = $tipo.ctype + " " + $fname.text + "(" + $dec_f_paramlist.s + ")\n{\n"
+    'END' 'FUNCTION' endname=IDENT
+    { checkClosingName("funcion", $fname, $endname);
+      checkClosingName("variable de retorno de funcion", $fname, $retname);
+      checkDeclaredParamCount("funcion", $fname, $nomparamlist.n, $dec_f_paramlist.n);
+      $s = $tipo.ctype + " " + $fname.text + "(" + $dec_f_paramlist.s + ")\n{\n"
            + $dcllist.s + $sentlist.s + "\treturn " + $exp.s + ";\n}\n\n"; }
   ;
 

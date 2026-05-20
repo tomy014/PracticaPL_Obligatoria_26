@@ -113,6 +113,7 @@ public class TraductorC_v2Parser extends Parser {
 
 	  private String inputFileName;
 	  private StringBuilder definesBuffer = new StringBuilder();
+	  private java.util.Map<String, Integer> interfaceParams = new java.util.HashMap<>();
 
 	  public TraductorC_v2Parser(org.antlr.v4.runtime.TokenStream input, String fileName) {
 	    this(input);
@@ -127,6 +128,33 @@ public class TraductorC_v2Parser extends Parser {
 	    return "\"" + inner + "\"";
 	  }
 
+	  private void checkClosingName(String kind, org.antlr.v4.runtime.Token start, org.antlr.v4.runtime.Token end) {
+	    if (!start.getText().equals(end.getText())) {
+	      notifyErrorListeners(end, "el nombre de cierre de " + kind + " '" + end.getText()
+	        + "' no coincide con '" + start.getText() + "'", null);
+	    }
+	  }
+
+	  private void saveInterfaceParams(String name, int count) {
+	    interfaceParams.put(name, count);
+	  }
+
+	  private void checkDeclaredParamCount(String kind, org.antlr.v4.runtime.Token name, int formalCount, int declaredCount) {
+	    if (formalCount != declaredCount) {
+	      notifyErrorListeners(name, "la declaracion de " + kind + " '" + name.getText()
+	        + "' tiene " + formalCount + " parametros en la cabecera y " + declaredCount
+	        + " parametros tipados", null);
+	    }
+	  }
+
+	  private void checkCallParamCount(org.antlr.v4.runtime.Token name, int actualCount) {
+	    Integer expectedCount = interfaceParams.get(name.getText());
+	    if (expectedCount != null && expectedCount != actualCount) {
+	      notifyErrorListeners(name, "la llamada a '" + name.getText() + "' tiene "
+	        + actualCount + " parametros, pero su declaracion tiene " + expectedCount, null);
+	    }
+	  }
+
 	public TraductorC_v2Parser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
@@ -135,14 +163,12 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class PrgContext extends ParserRuleContext {
 		public String s;
+		public Token pname;
 		public DcllistContext dcllist;
 		public CabeceraContext cabecera;
 		public SentlistContext sentlist;
+		public Token endname;
 		public SubproglistContext subproglist;
-		public List<TerminalNode> IDENT() { return getTokens(TraductorC_v2Parser.IDENT); }
-		public TerminalNode IDENT(int i) {
-			return getToken(TraductorC_v2Parser.IDENT, i);
-		}
 		public DcllistContext dcllist() {
 			return getRuleContext(DcllistContext.class,0);
 		}
@@ -154,6 +180,10 @@ public class TraductorC_v2Parser extends Parser {
 		}
 		public SubproglistContext subproglist() {
 			return getRuleContext(SubproglistContext.class,0);
+		}
+		public List<TerminalNode> IDENT() { return getTokens(TraductorC_v2Parser.IDENT); }
+		public TerminalNode IDENT(int i) {
+			return getToken(TraductorC_v2Parser.IDENT, i);
 		}
 		public PrgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -183,7 +213,7 @@ public class TraductorC_v2Parser extends Parser {
 			setState(88);
 			match(T__0);
 			setState(89);
-			match(IDENT);
+			((PrgContext)_localctx).pname = match(IDENT);
 			setState(90);
 			match(T__1);
 			setState(91);
@@ -197,10 +227,11 @@ public class TraductorC_v2Parser extends Parser {
 			setState(95);
 			match(T__0);
 			setState(96);
-			match(IDENT);
+			((PrgContext)_localctx).endname = match(IDENT);
 			setState(97);
 			((PrgContext)_localctx).subproglist = subproglist();
-			 ((PrgContext)_localctx).s =  definesBuffer.toString()
+			 checkClosingName("programa", ((PrgContext)_localctx).pname, ((PrgContext)_localctx).endname);
+			      ((PrgContext)_localctx).s =  definesBuffer.toString()
 			           + ((PrgContext)_localctx).cabecera.s
 			           + ((PrgContext)_localctx).subproglist.s
 			           + "void main(void)\n{\n" + ((PrgContext)_localctx).dcllist.s + ((PrgContext)_localctx).sentlist.s + "}\n"; 
@@ -1426,7 +1457,9 @@ public class TraductorC_v2Parser extends Parser {
 	public static class DecprocContext extends ParserRuleContext {
 		public String s;
 		public Token fname;
+		public Formal_paramlistContext formal_paramlist;
 		public Dec_s_paramlistContext dec_s_paramlist;
+		public Token endname;
 		public Formal_paramlistContext formal_paramlist() {
 			return getRuleContext(Formal_paramlistContext.class,0);
 		}
@@ -1467,7 +1500,7 @@ public class TraductorC_v2Parser extends Parser {
 			setState(230);
 			((DecprocContext)_localctx).fname = match(IDENT);
 			setState(231);
-			formal_paramlist();
+			((DecprocContext)_localctx).formal_paramlist = formal_paramlist();
 			setState(232);
 			((DecprocContext)_localctx).dec_s_paramlist = dec_s_paramlist();
 			setState(233);
@@ -1475,8 +1508,11 @@ public class TraductorC_v2Parser extends Parser {
 			setState(234);
 			match(T__13);
 			setState(235);
-			match(IDENT);
-			 ((DecprocContext)_localctx).s =  "void " + (((DecprocContext)_localctx).fname!=null?((DecprocContext)_localctx).fname.getText():null) + "(" + (((DecprocContext)_localctx).dec_s_paramlist.s.isEmpty() ? "void" : ((DecprocContext)_localctx).dec_s_paramlist.s) + ");\n"; 
+			((DecprocContext)_localctx).endname = match(IDENT);
+			 checkClosingName("subrutina", ((DecprocContext)_localctx).fname, ((DecprocContext)_localctx).endname);
+			      checkDeclaredParamCount("subrutina", ((DecprocContext)_localctx).fname, ((DecprocContext)_localctx).formal_paramlist.n, ((DecprocContext)_localctx).dec_s_paramlist.n);
+			      saveInterfaceParams((((DecprocContext)_localctx).fname!=null?((DecprocContext)_localctx).fname.getText():null), ((DecprocContext)_localctx).formal_paramlist.n);
+			      ((DecprocContext)_localctx).s =  "void " + (((DecprocContext)_localctx).fname!=null?((DecprocContext)_localctx).fname.getText():null) + "(" + (((DecprocContext)_localctx).dec_s_paramlist.s.isEmpty() ? "void" : ((DecprocContext)_localctx).dec_s_paramlist.s) + ");\n"; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -1493,6 +1529,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Formal_paramlistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public NomparamlistContext nomparamlist;
 		public NomparamlistContext nomparamlist() {
 			return getRuleContext(NomparamlistContext.class,0);
@@ -1532,7 +1569,7 @@ public class TraductorC_v2Parser extends Parser {
 				((Formal_paramlistContext)_localctx).nomparamlist = nomparamlist();
 				setState(240);
 				match(T__12);
-				 ((Formal_paramlistContext)_localctx).s =  ((Formal_paramlistContext)_localctx).nomparamlist.s; 
+				 ((Formal_paramlistContext)_localctx).s =  ((Formal_paramlistContext)_localctx).nomparamlist.s; ((Formal_paramlistContext)_localctx).n =  ((Formal_paramlistContext)_localctx).nomparamlist.n; 
 				}
 				break;
 			case T__2:
@@ -1543,7 +1580,7 @@ public class TraductorC_v2Parser extends Parser {
 			case IDENT:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((Formal_paramlistContext)_localctx).s =  ""; 
+				 ((Formal_paramlistContext)_localctx).s =  ""; ((Formal_paramlistContext)_localctx).n =  0; 
 				}
 				break;
 			default:
@@ -1564,6 +1601,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class NomparamlistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public Token IDENT;
 		public NomparamlistPContext nomparamlistP;
 		public TerminalNode IDENT() { return getToken(TraductorC_v2Parser.IDENT, 0); }
@@ -1599,7 +1637,7 @@ public class TraductorC_v2Parser extends Parser {
 			((NomparamlistContext)_localctx).IDENT = match(IDENT);
 			setState(247);
 			((NomparamlistContext)_localctx).nomparamlistP = nomparamlistP();
-			 ((NomparamlistContext)_localctx).s =  (((NomparamlistContext)_localctx).IDENT!=null?((NomparamlistContext)_localctx).IDENT.getText():null) + ((NomparamlistContext)_localctx).nomparamlistP.s; 
+			 ((NomparamlistContext)_localctx).s =  (((NomparamlistContext)_localctx).IDENT!=null?((NomparamlistContext)_localctx).IDENT.getText():null) + ((NomparamlistContext)_localctx).nomparamlistP.s; ((NomparamlistContext)_localctx).n =  1 + ((NomparamlistContext)_localctx).nomparamlistP.n; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -1616,6 +1654,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class NomparamlistPContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public Token IDENT;
 		public NomparamlistPContext nomparamlistP;
 		public TerminalNode IDENT() { return getToken(TraductorC_v2Parser.IDENT, 0); }
@@ -1657,13 +1696,13 @@ public class TraductorC_v2Parser extends Parser {
 				((NomparamlistPContext)_localctx).IDENT = match(IDENT);
 				setState(252);
 				((NomparamlistPContext)_localctx).nomparamlistP = nomparamlistP();
-				 ((NomparamlistPContext)_localctx).s =  ", " + (((NomparamlistPContext)_localctx).IDENT!=null?((NomparamlistPContext)_localctx).IDENT.getText():null) + ((NomparamlistPContext)_localctx).nomparamlistP.s; 
+				 ((NomparamlistPContext)_localctx).s =  ", " + (((NomparamlistPContext)_localctx).IDENT!=null?((NomparamlistPContext)_localctx).IDENT.getText():null) + ((NomparamlistPContext)_localctx).nomparamlistP.s; ((NomparamlistPContext)_localctx).n =  1 + ((NomparamlistPContext)_localctx).nomparamlistP.n; 
 				}
 				break;
 			case T__12:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((NomparamlistPContext)_localctx).s =  ""; 
+				 ((NomparamlistPContext)_localctx).s =  ""; ((NomparamlistPContext)_localctx).n =  0; 
 				}
 				break;
 			default:
@@ -1684,6 +1723,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Dec_s_paramlistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public Dec_s_paramContext dec_s_param;
 		public Dec_s_paramlistPContext dec_s_paramlistP;
 		public Dec_s_paramContext dec_s_param() {
@@ -1725,13 +1765,13 @@ public class TraductorC_v2Parser extends Parser {
 				((Dec_s_paramlistContext)_localctx).dec_s_param = dec_s_param();
 				setState(259);
 				((Dec_s_paramlistContext)_localctx).dec_s_paramlistP = dec_s_paramlistP();
-				 ((Dec_s_paramlistContext)_localctx).s =  ((Dec_s_paramlistContext)_localctx).dec_s_param.s + ((Dec_s_paramlistContext)_localctx).dec_s_paramlistP.s; 
+				 ((Dec_s_paramlistContext)_localctx).s =  ((Dec_s_paramlistContext)_localctx).dec_s_param.s + ((Dec_s_paramlistContext)_localctx).dec_s_paramlistP.s; ((Dec_s_paramlistContext)_localctx).n =  1 + ((Dec_s_paramlistContext)_localctx).dec_s_paramlistP.n; 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((Dec_s_paramlistContext)_localctx).s =  ""; 
+				 ((Dec_s_paramlistContext)_localctx).s =  ""; ((Dec_s_paramlistContext)_localctx).n =  0; 
 				}
 				break;
 			}
@@ -1750,6 +1790,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Dec_s_paramlistPContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public Dec_s_paramContext dec_s_param;
 		public Dec_s_paramlistPContext dec_s_paramlistP;
 		public Dec_s_paramContext dec_s_param() {
@@ -1791,13 +1832,13 @@ public class TraductorC_v2Parser extends Parser {
 				((Dec_s_paramlistPContext)_localctx).dec_s_param = dec_s_param();
 				setState(266);
 				((Dec_s_paramlistPContext)_localctx).dec_s_paramlistP = dec_s_paramlistP();
-				 ((Dec_s_paramlistPContext)_localctx).s =  ", " + ((Dec_s_paramlistPContext)_localctx).dec_s_param.s + ((Dec_s_paramlistPContext)_localctx).dec_s_paramlistP.s; 
+				 ((Dec_s_paramlistPContext)_localctx).s =  ", " + ((Dec_s_paramlistPContext)_localctx).dec_s_param.s + ((Dec_s_paramlistPContext)_localctx).dec_s_paramlistP.s; ((Dec_s_paramlistPContext)_localctx).n =  1 + ((Dec_s_paramlistPContext)_localctx).dec_s_paramlistP.n; 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((Dec_s_paramlistPContext)_localctx).s =  ""; 
+				 ((Dec_s_paramlistPContext)_localctx).s =  ""; ((Dec_s_paramlistPContext)_localctx).n =  0; 
 				}
 				break;
 			}
@@ -1883,6 +1924,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Dec_d_paramlistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public TipoContext tipo;
 		public Token IDENT;
 		public TipoContext tipo() {
@@ -1933,7 +1975,7 @@ public class TraductorC_v2Parser extends Parser {
 			((Dec_d_paramlistContext)_localctx).IDENT = match(IDENT);
 			setState(289);
 			match(T__1);
-			 ((Dec_d_paramlistContext)_localctx).s =  ((Dec_d_paramlistContext)_localctx).tipo.ctype + " " + (((Dec_d_paramlistContext)_localctx).IDENT!=null?((Dec_d_paramlistContext)_localctx).IDENT.getText():null) + (((Dec_d_paramlistContext)_localctx).tipo.arraydim.isEmpty() ? "" : "[]"); 
+			 ((Dec_d_paramlistContext)_localctx).s =  ((Dec_d_paramlistContext)_localctx).tipo.ctype + " " + (((Dec_d_paramlistContext)_localctx).IDENT!=null?((Dec_d_paramlistContext)_localctx).IDENT.getText():null) + (((Dec_d_paramlistContext)_localctx).tipo.arraydim.isEmpty() ? "" : "[]"); ((Dec_d_paramlistContext)_localctx).n =  1; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -2002,10 +2044,12 @@ public class TraductorC_v2Parser extends Parser {
 	public static class DecfunContext extends ParserRuleContext {
 		public String s;
 		public Token fname;
+		public NomparamlistContext nomparamlist;
 		public TipoContext tipo;
 		public Token retvar;
 		public Dec_f_paramlistContext dec_f_paramlist;
 		public Dec_d_paramlistContext dec_d_paramlist;
+		public Token endname;
 		public NomparamlistContext nomparamlist() {
 			return getRuleContext(NomparamlistContext.class,0);
 		}
@@ -2054,7 +2098,7 @@ public class TraductorC_v2Parser extends Parser {
 			setState(296);
 			match(T__11);
 			setState(297);
-			nomparamlist();
+			((DecfunContext)_localctx).nomparamlist = nomparamlist();
 			setState(298);
 			match(T__12);
 			setState(299);
@@ -2074,8 +2118,11 @@ public class TraductorC_v2Parser extends Parser {
 			setState(306);
 			match(T__18);
 			setState(307);
-			match(IDENT);
-			 ((DecfunContext)_localctx).s =  ((DecfunContext)_localctx).tipo.ctype + " " + (((DecfunContext)_localctx).fname!=null?((DecfunContext)_localctx).fname.getText():null) + "(" +
+			((DecfunContext)_localctx).endname = match(IDENT);
+			 checkClosingName("funcion", ((DecfunContext)_localctx).fname, ((DecfunContext)_localctx).endname);
+			      checkDeclaredParamCount("funcion", ((DecfunContext)_localctx).fname, ((DecfunContext)_localctx).nomparamlist.n, ((DecfunContext)_localctx).dec_f_paramlist.n + ((DecfunContext)_localctx).dec_d_paramlist.n);
+			      saveInterfaceParams((((DecfunContext)_localctx).fname!=null?((DecfunContext)_localctx).fname.getText():null), ((DecfunContext)_localctx).nomparamlist.n);
+			      ((DecfunContext)_localctx).s =  ((DecfunContext)_localctx).tipo.ctype + " " + (((DecfunContext)_localctx).fname!=null?((DecfunContext)_localctx).fname.getText():null) + "(" +
 			           (((DecfunContext)_localctx).dec_f_paramlist.s.isEmpty() ? "" : ((DecfunContext)_localctx).dec_f_paramlist.s + ", ") +
 			           ((DecfunContext)_localctx).dec_d_paramlist.s + ");\n"; 
 			}
@@ -2094,6 +2141,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Dec_f_paramlistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public Dec_f_paramlistPContext dec_f_paramlistP;
 		public Dec_f_paramlistPContext dec_f_paramlistP() {
 			return getRuleContext(Dec_f_paramlistPContext.class,0);
@@ -2125,7 +2173,7 @@ public class TraductorC_v2Parser extends Parser {
 			{
 			setState(310);
 			((Dec_f_paramlistContext)_localctx).dec_f_paramlistP = dec_f_paramlistP();
-			 ((Dec_f_paramlistContext)_localctx).s =  ((Dec_f_paramlistContext)_localctx).dec_f_paramlistP.s; 
+			 ((Dec_f_paramlistContext)_localctx).s =  ((Dec_f_paramlistContext)_localctx).dec_f_paramlistP.s; ((Dec_f_paramlistContext)_localctx).n =  ((Dec_f_paramlistContext)_localctx).dec_f_paramlistP.n; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -2142,6 +2190,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Dec_f_paramlistPContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public TipoContext tipo;
 		public Token IDENT;
 		public Dec_f_paramlistPContext rest;
@@ -2200,13 +2249,14 @@ public class TraductorC_v2Parser extends Parser {
 				setState(321);
 				((Dec_f_paramlistPContext)_localctx).rest = dec_f_paramlistP();
 				 ((Dec_f_paramlistPContext)_localctx).s =  ((Dec_f_paramlistPContext)_localctx).tipo.ctype + " " + (((Dec_f_paramlistPContext)_localctx).IDENT!=null?((Dec_f_paramlistPContext)_localctx).IDENT.getText():null) + (((Dec_f_paramlistPContext)_localctx).tipo.arraydim.isEmpty() ? "" : "[]") +
-				           (((Dec_f_paramlistPContext)_localctx).rest.s.isEmpty() ? "" : ", " + ((Dec_f_paramlistPContext)_localctx).rest.s); 
+				           (((Dec_f_paramlistPContext)_localctx).rest.s.isEmpty() ? "" : ", " + ((Dec_f_paramlistPContext)_localctx).rest.s);
+				      ((Dec_f_paramlistPContext)_localctx).n =  1 + ((Dec_f_paramlistPContext)_localctx).rest.n; 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((Dec_f_paramlistPContext)_localctx).s =  ""; 
+				 ((Dec_f_paramlistPContext)_localctx).s =  ""; ((Dec_f_paramlistPContext)_localctx).n =  0; 
 				}
 				break;
 			}
@@ -2581,7 +2631,8 @@ public class TraductorC_v2Parser extends Parser {
 				((FactorContext)_localctx).IDENT = match(IDENT);
 				setState(370);
 				((FactorContext)_localctx).factorP = factorP();
-				 ((FactorContext)_localctx).s =  (((FactorContext)_localctx).IDENT!=null?((FactorContext)_localctx).IDENT.getText():null) + ((FactorContext)_localctx).factorP.s; 
+				 if (((FactorContext)_localctx).factorP.isCall) checkCallParamCount(((FactorContext)_localctx).IDENT, ((FactorContext)_localctx).factorP.n);
+				                      ((FactorContext)_localctx).s =  (((FactorContext)_localctx).IDENT!=null?((FactorContext)_localctx).IDENT.getText():null) + ((FactorContext)_localctx).factorP.s; 
 				}
 				break;
 			default:
@@ -2602,6 +2653,8 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class FactorPContext extends ParserRuleContext {
 		public String s;
+		public int n;
+		public boolean isCall;
 		public ExpContext exp;
 		public ExplistContext explist;
 		public ExpContext exp() {
@@ -2647,7 +2700,7 @@ public class TraductorC_v2Parser extends Parser {
 				((FactorPContext)_localctx).explist = explist();
 				setState(378);
 				match(T__12);
-				 ((FactorPContext)_localctx).s =  "(" + ((FactorPContext)_localctx).exp.s + ((FactorPContext)_localctx).explist.s + ")"; 
+				 ((FactorPContext)_localctx).s =  "(" + ((FactorPContext)_localctx).exp.s + ((FactorPContext)_localctx).explist.s + ")"; ((FactorPContext)_localctx).n =  1 + ((FactorPContext)_localctx).explist.n; ((FactorPContext)_localctx).isCall =  true; 
 				}
 				break;
 			case T__1:
@@ -2659,7 +2712,7 @@ public class TraductorC_v2Parser extends Parser {
 			case T__22:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((FactorPContext)_localctx).s =  ""; 
+				 ((FactorPContext)_localctx).s =  ""; ((FactorPContext)_localctx).n =  0; ((FactorPContext)_localctx).isCall =  false; 
 				}
 				break;
 			default:
@@ -2680,6 +2733,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class ExplistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public ExpContext exp;
 		public ExplistContext explist;
 		public ExpContext exp() {
@@ -2723,13 +2777,13 @@ public class TraductorC_v2Parser extends Parser {
 				((ExplistContext)_localctx).exp = exp();
 				setState(386);
 				((ExplistContext)_localctx).explist = explist();
-				 ((ExplistContext)_localctx).s =  ", " + ((ExplistContext)_localctx).exp.s + ((ExplistContext)_localctx).explist.s; 
+				 ((ExplistContext)_localctx).s =  ", " + ((ExplistContext)_localctx).exp.s + ((ExplistContext)_localctx).explist.s; ((ExplistContext)_localctx).n =  1 + ((ExplistContext)_localctx).explist.n; 
 				}
 				break;
 			case T__12:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((ExplistContext)_localctx).s =  ""; 
+				 ((ExplistContext)_localctx).s =  ""; ((ExplistContext)_localctx).n =  0; 
 				}
 				break;
 			default:
@@ -2787,7 +2841,8 @@ public class TraductorC_v2Parser extends Parser {
 			((Proc_callContext)_localctx).IDENT = match(IDENT);
 			setState(394);
 			((Proc_callContext)_localctx).subpparamlist = subpparamlist();
-			 ((Proc_callContext)_localctx).s =  (((Proc_callContext)_localctx).IDENT!=null?((Proc_callContext)_localctx).IDENT.getText():null) + ((Proc_callContext)_localctx).subpparamlist.s; 
+			 checkCallParamCount(((Proc_callContext)_localctx).IDENT, ((Proc_callContext)_localctx).subpparamlist.n);
+			                                 ((Proc_callContext)_localctx).s =  (((Proc_callContext)_localctx).IDENT!=null?((Proc_callContext)_localctx).IDENT.getText():null) + ((Proc_callContext)_localctx).subpparamlist.s; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -2804,6 +2859,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class SubpparamlistContext extends ParserRuleContext {
 		public String s;
+		public int n;
 		public ExpContext exp;
 		public ExplistContext explist;
 		public ExpContext exp() {
@@ -2849,13 +2905,13 @@ public class TraductorC_v2Parser extends Parser {
 				((SubpparamlistContext)_localctx).explist = explist();
 				setState(400);
 				match(T__12);
-				 ((SubpparamlistContext)_localctx).s =  "(" + ((SubpparamlistContext)_localctx).exp.s + ((SubpparamlistContext)_localctx).explist.s + ")"; 
+				 ((SubpparamlistContext)_localctx).s =  "(" + ((SubpparamlistContext)_localctx).exp.s + ((SubpparamlistContext)_localctx).explist.s + ")"; ((SubpparamlistContext)_localctx).n =  1 + ((SubpparamlistContext)_localctx).explist.n; 
 				}
 				break;
 			case T__1:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((SubpparamlistContext)_localctx).s =  "()"; 
+				 ((SubpparamlistContext)_localctx).s =  "()"; ((SubpparamlistContext)_localctx).n =  0; 
 				}
 				break;
 			default:
@@ -3014,9 +3070,11 @@ public class TraductorC_v2Parser extends Parser {
 	public static class CodprocContext extends ParserRuleContext {
 		public String s;
 		public Token fname;
+		public Formal_paramlistContext formal_paramlist;
 		public Dec_s_paramlistContext dec_s_paramlist;
 		public DcllistContext dcllist;
 		public SentlistContext sentlist;
+		public Token endname;
 		public Formal_paramlistContext formal_paramlist() {
 			return getRuleContext(Formal_paramlistContext.class,0);
 		}
@@ -3063,7 +3121,7 @@ public class TraductorC_v2Parser extends Parser {
 			setState(422);
 			((CodprocContext)_localctx).fname = match(IDENT);
 			setState(423);
-			formal_paramlist();
+			((CodprocContext)_localctx).formal_paramlist = formal_paramlist();
 			setState(424);
 			((CodprocContext)_localctx).dec_s_paramlist = dec_s_paramlist();
 			setState(425);
@@ -3075,8 +3133,10 @@ public class TraductorC_v2Parser extends Parser {
 			setState(428);
 			match(T__13);
 			setState(429);
-			match(IDENT);
-			 ((CodprocContext)_localctx).s =  "void " + (((CodprocContext)_localctx).fname!=null?((CodprocContext)_localctx).fname.getText():null) + "(" + (((CodprocContext)_localctx).dec_s_paramlist.s.isEmpty() ? "void" : ((CodprocContext)_localctx).dec_s_paramlist.s) + ")\n{\n"
+			((CodprocContext)_localctx).endname = match(IDENT);
+			 checkClosingName("subrutina", ((CodprocContext)_localctx).fname, ((CodprocContext)_localctx).endname);
+			      checkDeclaredParamCount("subrutina", ((CodprocContext)_localctx).fname, ((CodprocContext)_localctx).formal_paramlist.n, ((CodprocContext)_localctx).dec_s_paramlist.n);
+			      ((CodprocContext)_localctx).s =  "void " + (((CodprocContext)_localctx).fname!=null?((CodprocContext)_localctx).fname.getText():null) + "(" + (((CodprocContext)_localctx).dec_s_paramlist.s.isEmpty() ? "void" : ((CodprocContext)_localctx).dec_s_paramlist.s) + ")\n{\n"
 			           + ((CodprocContext)_localctx).dcllist.s + ((CodprocContext)_localctx).sentlist.s + "}\n\n"; 
 			}
 		}
@@ -3095,6 +3155,7 @@ public class TraductorC_v2Parser extends Parser {
 	public static class CodfunContext extends ParserRuleContext {
 		public String s;
 		public Token fname;
+		public NomparamlistContext nomparamlist;
 		public TipoContext tipo;
 		public Token retvar;
 		public Dec_f_paramlistContext dec_f_paramlist;
@@ -3102,6 +3163,7 @@ public class TraductorC_v2Parser extends Parser {
 		public SentlistContext sentlist;
 		public Token retname;
 		public ExpContext exp;
+		public Token endname;
 		public NomparamlistContext nomparamlist() {
 			return getRuleContext(NomparamlistContext.class,0);
 		}
@@ -3156,7 +3218,7 @@ public class TraductorC_v2Parser extends Parser {
 			setState(434);
 			match(T__11);
 			setState(435);
-			nomparamlist();
+			((CodfunContext)_localctx).nomparamlist = nomparamlist();
 			setState(436);
 			match(T__12);
 			setState(437);
@@ -3186,8 +3248,11 @@ public class TraductorC_v2Parser extends Parser {
 			setState(449);
 			match(T__18);
 			setState(450);
-			match(IDENT);
-			 ((CodfunContext)_localctx).s =  ((CodfunContext)_localctx).tipo.ctype + " " + (((CodfunContext)_localctx).fname!=null?((CodfunContext)_localctx).fname.getText():null) + "(" + ((CodfunContext)_localctx).dec_f_paramlist.s + ")\n{\n"
+			((CodfunContext)_localctx).endname = match(IDENT);
+			 checkClosingName("funcion", ((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).endname);
+			      checkClosingName("variable de retorno de funcion", ((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).retname);
+			      checkDeclaredParamCount("funcion", ((CodfunContext)_localctx).fname, ((CodfunContext)_localctx).nomparamlist.n, ((CodfunContext)_localctx).dec_f_paramlist.n);
+			      ((CodfunContext)_localctx).s =  ((CodfunContext)_localctx).tipo.ctype + " " + (((CodfunContext)_localctx).fname!=null?((CodfunContext)_localctx).fname.getText():null) + "(" + ((CodfunContext)_localctx).dec_f_paramlist.s + ")\n{\n"
 			           + ((CodfunContext)_localctx).dcllist.s + ((CodfunContext)_localctx).sentlist.s + "\treturn " + ((CodfunContext)_localctx).exp.s + ";\n}\n\n"; 
 			}
 		}
