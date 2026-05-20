@@ -18,6 +18,9 @@ public class Main {
 
             // Llamar al programa del analizador sintáctico y obtener la traducción
             TraductorC_v2Parser.PrgContext tree = anasint.prg();
+            if (anasint.getNumberOfSyntaxErrors() > 0) {
+                return;
+            }
             String result = tree.s;
 
             // Nombre del fichero de salida (.for -> .c)

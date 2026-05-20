@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AIDiffSettings">
+    <option name="showAIDiff" value="false" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7ab491ec-f844-49f1-9bd4-ce5d94a7ba84" name="Changes" comment="Pequeña modificación a la gramática" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotChats">
+    <option name="panelChat">
+      <chat>
+        <option name="activeSessionId" value="4026c66c-ad8f-42f3-a6b6-0aa21f77ab26" />
+        <option name="sessions">
+          <session>
+            <option name="chatType" value="PANEL" />
+            <option name="id" value="4026c66c-ad8f-42f3-a6b6-0aa21f77ab26" />
+            <option name="modeId" value="Ask" />
+            <option name="modelType" value="builtin_family" />
+            <option name="modelValue" value="auto" />
+            <option name="targetType" value="LOCAL" />
+          </session>
+        </option>
+        <option name="type" value="PANEL" />
+      </chat>
+    </option>
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/Alberto/OneDrive - Universidad Rey Juan Carlos/Documentos/Universidad - Sexto Curso/Segundo semestre/Procesadores de Lenguajes/PObligatoria_2026/PL_Obligatoria_2026" value="39nEboAZqdioLAemfd5ApN4K10b" />
+      <entry key="_C:/Users/alber/OneDrive - Universidad Rey Juan Carlos/Documentos/Universidad - Sexto Curso/Segundo semestre/Procesadores de Lenguajes/PObligatoria_2026/PL_Obligatoria_2026" value="3Cg5jzJkGcX6lybJqgu2WoGR62e" />
+    </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Agent" />
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="agent-panel" value="Auto" />
+      <entry key="edit-panel" value="GPT-5 mini" />
+      <entry key="chat-panel" value="Auto" />
+    </selectedModels>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="36" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="entrega1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;tomy014&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tomy014/PracticaPL_Obligatoria_26.git&quot;,
+    &quot;accountId&quot;: &quot;014a4cc2-e9cd-4339-b881-f26dd2122038&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="39nEboAZqdioLAemfd5ApN4K10b" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/alber/OneDrive - Universidad Rey Juan Carlos/Documentos/Universidad - Sexto Curso/Segundo semestre/Procesadores de Lenguajes/PObligatoria_2026/PL_Obligatoria_2026&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/Alberto/OneDrive - Universidad Rey Juan Carlos/Documentos/Universidad - Sexto Curso/Segundo semestre/Procesadores de Lenguajes/PObligatoria_2026/PL_Obligatoria_2026/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Alberto\OneDrive - Universidad Rey Juan Carlos\Documentos\Universidad - Sexto Curso\Segundo semestre\Procesadores de Lenguajes\PObligatoria_2026\PL_Obligatoria_2026\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Alberto\OneDrive - Universidad Rey Juan Carlos\Documentos\Universidad - Sexto Curso\Segundo semestre\Procesadores de Lenguajes\PObligatoria_2026\PL_Obligatoria_2026\src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="PL_Obligatoria_2026" />
+      <option name="PROGRAM_PARAMETERS" value="src/ej1.for" />
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.32098.37" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7ab491ec-f844-49f1-9bd4-ce5d94a7ba84" name="Changes" comment="" />
+      <created>1771323511263</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1771323511263</updated>
+      <workItem from="1771323512621" duration="4750000" />
+      <workItem from="1771333820101" duration="2114000" />
+      <workItem from="1772472058251" duration="401000" />
+      <workItem from="1772532243683" duration="409000" />
+      <workItem from="1772532692899" duration="5283000" />
+      <workItem from="1773741959229" duration="4205000" />
+      <workItem from="1773851934707" duration="1400000" />
+      <workItem from="1773856426856" duration="1459000" />
+      <workItem from="1774273810063" duration="2794000" />
+      <workItem from="1774278209804" duration="480000" />
+      <workItem from="1774279580822" duration="1127000" />
+      <workItem from="1774347907227" duration="4597000" />
+      <workItem from="1774357660828" duration="2151000" />
+      <workItem from="1775552593631" duration="6796000" />
+      <workItem from="1776157717494" duration="2657000" />
+      <workItem from="1776409727955" duration="139000" />
+      <workItem from="1776679175142" duration="2153000" />
+      <workItem from="1776681354175" duration="3407000" />
+      <workItem from="1776684869418" duration="4612000" />
+      <workItem from="1776705940381" duration="3932000" />
+      <workItem from="1776766667710" duration="1463000" />
+      <workItem from="1776791633091" duration="1050000" />
+      <workItem from="1776794507146" duration="145000" />
+      <workItem from="1776794694215" duration="715000" />
+      <workItem from="1777024101347" duration="5276000" />
+      <workItem from="1777304665670" duration="1191000" />
+      <workItem from="1777367263990" duration="112000" />
+      <workItem from="1777367935475" duration="589000" />
+      <workItem from="1777368548520" duration="4528000" />
+      <workItem from="1777378143872" duration="1807000" />
+      <workItem from="1778496623853" duration="161000" />
+      <workItem from="1778496898763" duration="543000" />
+      <workItem from="1778513118092" duration="337000" />
+    </task>
+    <task id="LOCAL-00001" summary="Inicial">
+      <option name="closed" value="true" />
+      <created>1771323675312</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1771323675312</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Creados ficheros para comenzar a trabajar.">
+      <option name="closed" value="true" />
+      <created>1771325733613</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1771325733613</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fichero del año pasado publicado">
+      <option name="closed" value="true" />
+      <created>1771325762334</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1771325762334</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Cambios hechos">
+      <option name="closed" value="true" />
+      <created>1771328339008</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1771328339008</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Cambios a gramática">
+      <option name="closed" value="true" />
+      <created>1773746771726</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1773746771726</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Convertida a G4">
+      <option name="closed" value="true" />
+      <created>1773747556260</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1773747556260</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Corregida gramática y parser de constantes reales.">
+      <option name="closed" value="true" />
+      <created>1774349276359</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1774349276359</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Generado ANTLR">
+      <option name="closed" value="true" />
+      <created>1774349320566</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1774349320566</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Añadidos comentarios de la parte de traducción.">
+      <option name="closed" value="true" />
+      <created>1774349892196</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1774349892196</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Corregido problema en dcl que hacía que no fuera LL(1)">
+      <option name="closed" value="true" />
+      <created>1774351067306</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1774351067306</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Comentarios y dejar bonito">
+      <option name="closed" value="true" />
+      <created>1774351870491</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1774351870491</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Comentarios y dejar bonito">
+      <option name="closed" value="true" />
+      <created>1774352532291</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1774352532291</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Arreglado regla de comments">
+      <option name="closed" value="true" />
+      <created>1774358502885</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1774358502885</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Pre entrega 1">
+      <option name="closed" value="true" />
+      <created>1775553824430</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1775553824430</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Entrega v1">
+      <option name="closed" value="true" />
+      <created>1775553886122</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1775553886122</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Entrega v1.1">
+      <option name="closed" value="true" />
+      <created>1775554453353</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1775554453353</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Comenzada traducción dirigida por sintaxis">
+      <option name="closed" value="true" />
+      <created>1776682515608</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1776682515608</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Primera versión del nuevo analizador">
+      <option name="closed" value="true" />
+      <created>1776683541771</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1776683541771</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Subidos los nuevos ficheros ANTLR">
+      <option name="closed" value="true" />
+      <created>1776683564172</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1776683564172</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Segunda versión del traductor, muchos cambios">
+      <option name="closed" value="true" />
+      <created>1776767058481</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1776767058481</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Añadidos comentarios">
+      <option name="closed" value="true" />
+      <created>1776768110730</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1776768110730</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Pequeña modificación a la gramática">
+      <option name="closed" value="true" />
+      <created>1777372977932</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1777372977932</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.c" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.for" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Inicial" />
+    <MESSAGE value="Creados ficheros para comenzar a trabajar." />
+    <MESSAGE value="Fichero del año pasado publicado" />
+    <MESSAGE value="Cambios hechos" />
+    <MESSAGE value="Cambios a gramática" />
+    <MESSAGE value="Convertida a G4" />
+    <MESSAGE value="Arreglado problema" />
+    <MESSAGE value="Del .gitignore" />
+    <MESSAGE value="Corregida gramática y parser de constantes reales." />
+    <MESSAGE value="Generado ANTLR" />
+    <MESSAGE value="Añadidos comentarios de la parte de traducción." />
+    <MESSAGE value="Corregido problema en dcl que hacía que no fuera LL(1)" />
+    <MESSAGE value="Comentarios y dejar bonito" />
+    <MESSAGE value="Arreglado regla de comments" />
+    <MESSAGE value="Pre entrega 1" />
+    <MESSAGE value="Entrega v1" />
+    <MESSAGE value="Entrega v1.1" />
+    <MESSAGE value="Comenzada traducción dirigida por sintaxis" />
+    <MESSAGE value="Primera versión del nuevo analizador" />
+    <MESSAGE value="Subidos los nuevos ficheros ANTLR" />
+    <MESSAGE value="Segunda versión del traductor, muchos cambios" />
+    <MESSAGE value="Añadidos comentarios" />
+    <MESSAGE value="Pequeña modificación a la gramática" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pequeña modificación a la gramática" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

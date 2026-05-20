@@ -270,6 +270,7 @@ codfun returns [String s]
 // --------------------
 fragment Letras: [a-zA-Z] ;
 fragment Digitos: [0-9] ;
+
 IDENT: Letras (Letras | Digitos | '_')* ;
 NUM_REAL_CONST: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
 NUM_INT_CONST: [+-]? Digitos+ ;
