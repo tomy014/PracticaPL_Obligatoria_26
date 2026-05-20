@@ -44,5 +44,5 @@ END FUNCTION resta
 SUBROUTINE ImprimirMensaje(texto)
     CHARACTER(10), INTENT(IN) texto;
     CALL MostrarEnPantalla(texto);
-END SUBROUTINE mal
+END SUBROUTINE peor
 ! Error en el nombre de la función
