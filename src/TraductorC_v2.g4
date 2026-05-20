@@ -57,6 +57,21 @@ grammar TraductorC_v2;
         + "' no coincide con el nombre de la funcion '" + functionName.getText() + "'", null);
     }
   }
+
+  // Verifica que no se intente inicializar una variable de tipo numérico con un valor string, y viceversa.
+  private void checkInitializationTypeCompatibility(String varType, org.antlr.v4.runtime.Token initValue) {
+    String valueText = initValue.getText();
+    boolean isStringValue = valueText.startsWith("'") || valueText.startsWith("\"");
+    boolean isNumericValue = valueText.matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?");
+
+    if ((varType.equals("int") || varType.equals("float")) && isStringValue) {
+      notifyErrorListeners(initValue, "no se puede inicializar una variable de tipo " + varType
+        + " con un valor string '" + valueText + "'", null);
+    } else if (varType.equals("char") && isNumericValue) {
+      notifyErrorListeners(initValue, "no se puede inicializar una variable de tipo char "
+        + "con un valor numérico '" + valueText + "'", null);
+    }
+  }
 }
 
 // --------------------
@@ -117,8 +132,9 @@ dclP[String ctype, String arraydim] returns [String s]
   ;
 // Traduce constantes PARAMETER a macros #define acumuladas al inicio del fichero.
 defcte[String ctype] returns [String s]
-  : ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist ';'
-    { definesBuffer.append("#define " + $IDENT.text + " " + $simpvalue.s + "\n");
+  : ',' 'PARAMETER' '::' IDENT '=' simpvalue ctelist[$ctype] ';'
+    { checkInitializationTypeCompatibility($ctype, $simpvalue.start);
+      definesBuffer.append("#define " + $IDENT.text + " " + $simpvalue.s + "\n");
       definesBuffer.append($ctelist.s);
       $s = ""; }
   ;
@@ -128,9 +144,10 @@ defvar[String ctype, String arraydim] returns [String s]
     { $s = "\t" + $ctype + " " + $varlist.s + ";\n"; }
   ;
 // Lista de constantes en PARAMETER, concatenando sus traducciones a macros.
-ctelist returns [String s]
-  : ',' IDENT '=' simpvalue ctelist
-    { $s = "#define " + $IDENT.text + " " + $simpvalue.s + "\n" + $ctelist.s; }
+ctelist[String ctype] returns [String s]
+  : ',' IDENT '=' simpvalue ctelist[$ctype]
+    { checkInitializationTypeCompatibility($ctype, $simpvalue.start);
+      $s = "#define " + $IDENT.text + " " + $simpvalue.s + "\n" + $ctelist.s; }
   |
     { $s = ""; }
   ;
@@ -154,19 +171,21 @@ charlength returns [String s]
 // Traduce una lista de variables, incluyendo arrays e inicializaciones.
 varlist[String ctype, String arraydim] returns [String s]
   : IDENT init varlistP[$ctype, $arraydim]
-    { $s = $IDENT.text + $arraydim + $init.s + $varlistP.s; }
+    { if ($init.token != null) checkInitializationTypeCompatibility($ctype, (org.antlr.v4.runtime.Token)$init.token);
+      $s = $IDENT.text + $arraydim + $init.s + $varlistP.s; }
   ;
 // Lista prima de variables, continuando la lista o terminándola.
 varlistP[String ctype, String arraydim] returns [String s]
   : ',' IDENT init varlistP[$ctype, $arraydim]
-    { $s = ", " + $IDENT.text + $arraydim + $init.s + $varlistP.s; }
+    { if ($init.token != null) checkInitializationTypeCompatibility($ctype, (org.antlr.v4.runtime.Token)$init.token);
+      $s = ", " + $IDENT.text + $arraydim + $init.s + $varlistP.s; }
   |
     { $s = ""; }
   ;
 // Traduce una inicialización opcional al formato de asignación en C.
-init returns [String s]
-  : '=' simpvalue { $s = " = " + $simpvalue.s; }
-  | { $s = ""; }
+init returns [String s, Object token]
+  : '=' simpvalue { $s = " = " + $simpvalue.s; $token = $simpvalue.start; }
+  | { $s = ""; $token = null; }
   ;
 // Traduce la cabecera de una subrutina a un prototipo void en C.
 decproc returns [String s]

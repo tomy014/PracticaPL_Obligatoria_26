@@ -128,6 +128,7 @@ public class TraductorC_v2Parser extends Parser {
 	    return "\"" + inner + "\"";
 	  }
 
+	  // Verifica que el nombre de cierre coincida con el nombre de apertura.
 	  private void checkClosingName(String kind, org.antlr.v4.runtime.Token start, org.antlr.v4.runtime.Token end) {
 	    if (!start.getText().equals(end.getText())) {
 	      notifyErrorListeners(end, "el nombre de cierre de " + kind + " '" + end.getText()
@@ -135,10 +136,12 @@ public class TraductorC_v2Parser extends Parser {
 	    }
 	  }
 
+	  // Guarda el número de parámetros formales de una subrutina o función declarada en la sección INTERFACE para verificar las llamadas posteriores.
 	  private void saveInterfaceParams(String name, int count) {
 	    interfaceParams.put(name, count);
 	  }
 
+	  // Verifica que el número de parámetros declarados en la cabecera coincida con el número de parámetros tipados en la sección INTERFACE.
 	  private void checkDeclaredParamCount(String kind, org.antlr.v4.runtime.Token name, int formalCount, int declaredCount) {
 	    if (formalCount != declaredCount) {
 	      notifyErrorListeners(name, "la declaracion de " + kind + " '" + name.getText()
@@ -147,6 +150,7 @@ public class TraductorC_v2Parser extends Parser {
 	    }
 	  }
 
+	  // Verifica que el número de argumentos en una llamada coincida con el número de parámetros declarados en la sección INTERFACE para ese subprograma.
 	  private void checkCallParamCount(org.antlr.v4.runtime.Token name, int actualCount) {
 	    Integer expectedCount = interfaceParams.get(name.getText());
 	    if (expectedCount != null && expectedCount != actualCount) {
@@ -155,10 +159,26 @@ public class TraductorC_v2Parser extends Parser {
 	    }
 	  }
 
+	  // Hace lo mismo que checkClosingName pero para verificar que el nombre de la variable de retorno de una función coincida con el nombre de la función.
 	  private void checkReturnVarName(org.antlr.v4.runtime.Token functionName, org.antlr.v4.runtime.Token returnVar) {
 	    if (!functionName.getText().equals(returnVar.getText())) {
 	      notifyErrorListeners(returnVar, "el nombre de la variable de retorno '" + returnVar.getText()
 	        + "' no coincide con el nombre de la funcion '" + functionName.getText() + "'", null);
+	    }
+	  }
+
+	  // Verifica que no se intente inicializar una variable de tipo numérico con un valor string, y viceversa.
+	  private void checkInitializationTypeCompatibility(String varType, org.antlr.v4.runtime.Token initValue) {
+	    String valueText = initValue.getText();
+	    boolean isStringValue = valueText.startsWith("'") || valueText.startsWith("\"");
+	    boolean isNumericValue = valueText.matches("[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?");
+
+	    if ((varType.equals("int") || varType.equals("float")) && isStringValue) {
+	      notifyErrorListeners(initValue, "no se puede inicializar una variable de tipo " + varType
+	        + " con un valor string '" + valueText + "'", null);
+	    } else if (varType.equals("char") && isNumericValue) {
+	      notifyErrorListeners(initValue, "no se puede inicializar una variable de tipo char "
+	        + "con un valor numérico '" + valueText + "'", null);
 	    }
 	  }
 
@@ -887,10 +907,11 @@ public class TraductorC_v2Parser extends Parser {
 			setState(163);
 			((DefcteContext)_localctx).simpvalue = simpvalue();
 			setState(164);
-			((DefcteContext)_localctx).ctelist = ctelist();
+			((DefcteContext)_localctx).ctelist = ctelist(_localctx.ctype);
 			setState(165);
 			match(T__1);
-			 definesBuffer.append("#define " + (((DefcteContext)_localctx).IDENT!=null?((DefcteContext)_localctx).IDENT.getText():null) + " " + ((DefcteContext)_localctx).simpvalue.s + "\n");
+			 checkInitializationTypeCompatibility(_localctx.ctype, (((DefcteContext)_localctx).simpvalue!=null?(((DefcteContext)_localctx).simpvalue.start):null));
+			      definesBuffer.append("#define " + (((DefcteContext)_localctx).IDENT!=null?((DefcteContext)_localctx).IDENT.getText():null) + " " + ((DefcteContext)_localctx).simpvalue.s + "\n");
 			      definesBuffer.append(((DefcteContext)_localctx).ctelist.s);
 			      ((DefcteContext)_localctx).s =  ""; 
 			}
@@ -965,6 +986,7 @@ public class TraductorC_v2Parser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class CtelistContext extends ParserRuleContext {
+		public String ctype;
 		public String s;
 		public Token IDENT;
 		public SimpvalueContext simpvalue;
@@ -976,8 +998,10 @@ public class TraductorC_v2Parser extends Parser {
 		public CtelistContext ctelist() {
 			return getRuleContext(CtelistContext.class,0);
 		}
-		public CtelistContext(ParserRuleContext parent, int invokingState) {
+		public CtelistContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public CtelistContext(ParserRuleContext parent, int invokingState, String ctype) {
 			super(parent, invokingState);
+			this.ctype = ctype;
 		}
 		@Override public int getRuleIndex() { return RULE_ctelist; }
 		@Override
@@ -995,8 +1019,8 @@ public class TraductorC_v2Parser extends Parser {
 		}
 	}
 
-	public final CtelistContext ctelist() throws RecognitionException {
-		CtelistContext _localctx = new CtelistContext(_ctx, getState());
+	public final CtelistContext ctelist(String ctype) throws RecognitionException {
+		CtelistContext _localctx = new CtelistContext(_ctx, getState(), ctype);
 		enterRule(_localctx, 24, RULE_ctelist);
 		try {
 			setState(181);
@@ -1014,8 +1038,9 @@ public class TraductorC_v2Parser extends Parser {
 				setState(176);
 				((CtelistContext)_localctx).simpvalue = simpvalue();
 				setState(177);
-				((CtelistContext)_localctx).ctelist = ctelist();
-				 ((CtelistContext)_localctx).s =  "#define " + (((CtelistContext)_localctx).IDENT!=null?((CtelistContext)_localctx).IDENT.getText():null) + " " + ((CtelistContext)_localctx).simpvalue.s + "\n" + ((CtelistContext)_localctx).ctelist.s; 
+				((CtelistContext)_localctx).ctelist = ctelist(_localctx.ctype);
+				 checkInitializationTypeCompatibility(_localctx.ctype, (((CtelistContext)_localctx).simpvalue!=null?(((CtelistContext)_localctx).simpvalue.start):null));
+				      ((CtelistContext)_localctx).s =  "#define " + (((CtelistContext)_localctx).IDENT!=null?((CtelistContext)_localctx).IDENT.getText():null) + " " + ((CtelistContext)_localctx).simpvalue.s + "\n" + ((CtelistContext)_localctx).ctelist.s; 
 				}
 				break;
 			case T__1:
@@ -1302,7 +1327,8 @@ public class TraductorC_v2Parser extends Parser {
 			((VarlistContext)_localctx).init = init();
 			setState(210);
 			((VarlistContext)_localctx).varlistP = varlistP(_localctx.ctype, _localctx.arraydim);
-			 ((VarlistContext)_localctx).s =  (((VarlistContext)_localctx).IDENT!=null?((VarlistContext)_localctx).IDENT.getText():null) + _localctx.arraydim + ((VarlistContext)_localctx).init.s + ((VarlistContext)_localctx).varlistP.s; 
+			 if (((VarlistContext)_localctx).init.token != null) checkInitializationTypeCompatibility(_localctx.ctype, (org.antlr.v4.runtime.Token)((VarlistContext)_localctx).init.token);
+			      ((VarlistContext)_localctx).s =  (((VarlistContext)_localctx).IDENT!=null?((VarlistContext)_localctx).IDENT.getText():null) + _localctx.arraydim + ((VarlistContext)_localctx).init.s + ((VarlistContext)_localctx).varlistP.s; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -1371,7 +1397,8 @@ public class TraductorC_v2Parser extends Parser {
 				((VarlistPContext)_localctx).init = init();
 				setState(216);
 				((VarlistPContext)_localctx).varlistP = varlistP(_localctx.ctype, _localctx.arraydim);
-				 ((VarlistPContext)_localctx).s =  ", " + (((VarlistPContext)_localctx).IDENT!=null?((VarlistPContext)_localctx).IDENT.getText():null) + _localctx.arraydim + ((VarlistPContext)_localctx).init.s + ((VarlistPContext)_localctx).varlistP.s; 
+				 if (((VarlistPContext)_localctx).init.token != null) checkInitializationTypeCompatibility(_localctx.ctype, (org.antlr.v4.runtime.Token)((VarlistPContext)_localctx).init.token);
+				      ((VarlistPContext)_localctx).s =  ", " + (((VarlistPContext)_localctx).IDENT!=null?((VarlistPContext)_localctx).IDENT.getText():null) + _localctx.arraydim + ((VarlistPContext)_localctx).init.s + ((VarlistPContext)_localctx).varlistP.s; 
 				}
 				break;
 			case T__1:
@@ -1398,6 +1425,7 @@ public class TraductorC_v2Parser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class InitContext extends ParserRuleContext {
 		public String s;
+		public Object token;
 		public SimpvalueContext simpvalue;
 		public SimpvalueContext simpvalue() {
 			return getRuleContext(SimpvalueContext.class,0);
@@ -1435,14 +1463,14 @@ public class TraductorC_v2Parser extends Parser {
 				match(T__7);
 				setState(223);
 				((InitContext)_localctx).simpvalue = simpvalue();
-				 ((InitContext)_localctx).s =  " = " + ((InitContext)_localctx).simpvalue.s; 
+				 ((InitContext)_localctx).s =  " = " + ((InitContext)_localctx).simpvalue.s; ((InitContext)_localctx).token =  (((InitContext)_localctx).simpvalue!=null?(((InitContext)_localctx).simpvalue.start):null); 
 				}
 				break;
 			case T__1:
 			case T__4:
 				enterOuterAlt(_localctx, 2);
 				{
-				 ((InitContext)_localctx).s =  ""; 
+				 ((InitContext)_localctx).s =  ""; ((InitContext)_localctx).token =  null; 
 				}
 				break;
 			default:
