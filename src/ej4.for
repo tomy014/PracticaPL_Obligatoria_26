@@ -1,6 +1,6 @@
 PROGRAM prog4 ;
 INTEGER :: a = 4, b = 6, resultado;
-REAL :: escala = 2.5;
+REAL :: escala = -000.64E77;
 CHARACTER(30) :: texto = “comilla doble ”” dentro” ;
 CHARACTER(30) :: texto2 = 'comilla simple '' dentro';
 CHARACTER(30) :: texto3 = “comilla simple ' y doble ”” dentro”;
