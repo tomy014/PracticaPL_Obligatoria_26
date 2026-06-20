@@ -166,12 +166,6 @@ public interface TraductorC_v2Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDec_s_param(TraductorC_v2Parser.Dec_s_paramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TraductorC_v2Parser#dec_d_paramlist}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link TraductorC_v2Parser#tipoparam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

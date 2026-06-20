@@ -328,18 +328,6 @@ public class TraductorC_v2BaseListener implements TraductorC_v2Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterTipoparam(TraductorC_v2Parser.TipoparamContext ctx) { }
 	/**
 	 * {@inheritDoc}

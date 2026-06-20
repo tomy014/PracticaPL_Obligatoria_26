@@ -1,7 +1,9 @@
 PROGRAM prog4 ;
 INTEGER :: a = 4, b = 6, resultado;
 REAL :: escala = 2.5;
-CHARACTER(12) :: texto = "resultado";
+CHARACTER(30) :: texto = “comilla doble ”” dentro” ;
+CHARACTER(30) :: texto2 = 'comilla simple '' dentro';
+CHARACTER(30) :: texto3 = “comilla simple ' y doble ”” dentro”;
 
     INTERFACE
         FUNCTION Doble(x)

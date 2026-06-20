@@ -199,13 +199,6 @@ public class TraductorC_v2BaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDec_d_paramlist(TraductorC_v2Parser.Dec_d_paramlistContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitTipoparam(TraductorC_v2Parser.TipoparamContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

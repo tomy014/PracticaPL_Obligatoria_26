@@ -12,10 +12,17 @@ grammar TraductorC_v2;
   }
 
   private String convertString(String s) {
-    if (s.startsWith("\"")) return s;
+    char first = s.charAt(0);
     String inner = s.substring(1, s.length() - 1);
-    inner = inner.replace("''", "'");
-    inner = inner.replace("\"", "\\\"");
+    if (first == '\'') {
+      inner = inner.replace("''", "'");
+      inner = inner.replace("\"", "\\\"");
+    } else if (first == '“') {
+      inner = inner.replace("””", "”");
+      inner = inner.replace("\"", "\\\"");
+    } else {
+      return s;
+    }
     return "\"" + inner + "\"";
   }
 
@@ -228,24 +235,17 @@ dec_s_param returns [String s]
   : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';'
     { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); }
   ;
-// Traduce un parámetro de una función, a argumento de C, incluyendo tipo, nombre y posible dimensión de array.
-dec_d_paramlist returns [String s, int n]
-  : tipo ',' 'INTENT' '(' tipoparam ')' IDENT ';'
-    { $s = $tipo.ctype + " " + $IDENT.text + ($tipo.arraydim.isEmpty() ? "" : "[]"); $n = 1; }
-  ;
 // Declara el tipo de parámetro según su intención (IN, OUT, INOUT).
 tipoparam : 'IN' | 'OUT' | 'INOUT' ;
 // Traduce la cabecera de una función, incluyendo su tipo de retorno.
 decfun returns [String s]
   : 'FUNCTION' fname=IDENT '(' nomparamlist ')' tipo '::' retvar=IDENT ';'
-    dec_f_paramlist dec_d_paramlist 'END' 'FUNCTION' endname=IDENT
+    dec_f_paramlist 'END' 'FUNCTION' endname=IDENT
     { checkClosingName("funcion", $fname, $endname);
       checkReturnVarName($fname, $retvar);
-      checkDeclaredParamCount("funcion", $fname, $nomparamlist.n, $dec_f_paramlist.n + $dec_d_paramlist.n);
+      checkDeclaredParamCount("funcion", $fname, $nomparamlist.n, $dec_f_paramlist.n);
       saveInterfaceParams($fname.text, $nomparamlist.n);
-      $s = $tipo.ctype + " " + $fname.text + "(" +
-           ($dec_f_paramlist.s.isEmpty() ? "" : $dec_f_paramlist.s + ", ") +
-           $dec_d_paramlist.s + ");\n"; }
+      $s = $tipo.ctype + " " + $fname.text + "(" + $dec_f_paramlist.s + ");\n"; }
   ;
 // Traduce la lista de parámetros de una función, concatenando cada parámetro traducido.
 dec_f_paramlist returns [String s, int n]
@@ -350,6 +350,10 @@ fragment Digitos: [0-9] ;
 IDENT: Letras (Letras | Digitos | '_')* ;
 NUM_REAL_CONST: [+-]? (Digitos+ '.' Digitos* | '.' Digitos+ | Digitos+ [eE] [+-]? Digitos+) ([eE] [+-]? Digitos+)? ;
 NUM_INT_CONST: [+-]? Digitos+ ;
-STRING_CONST: '\'' ( ~['\r\n] | '\'\'' )* '\'' | '"' ( ~["\r\n] | '\\"' )* '"' ;
+STRING_CONST
+  : '\'' ( ~['\r\n] | '\'\'' )* '\''
+  | '"'  ( ~["\r\n]  | '""'   )* '"'
+  | '“'  ( ~[“”\r\n] | '””'   )* '”'
+  ;
 COMMENT: '!' ~[\r\n]* -> skip ;
 IGNORE: [ \t\r\n]+ -> skip ;

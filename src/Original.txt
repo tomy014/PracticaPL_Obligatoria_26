@@ -33,12 +33,10 @@ formal_paramlist ::= ʎ | "(" nomparamlist ")"
 nomparamlist ::= IDENT | IDENT "," nomparamlist
 dec_s_paramlist ::= ʎ | tipo "," "INTENT" "(" tipoparam ")" IDENT ";"
     dec_s_paramlist
-dec_d_paramlist ::= tipo "," "INTENT" "(" tipoparam ")" IDENT ";"
 tipoparam ::= "IN" | "OUT" | "INOUT"
 decfun ::=  "FUNCTION" IDENT "(" nomparamlist ")"
 tipo "::" IDENT ";"
     dec_f_paramlist
-    dec_d_paramlist
     "END" "FUNCTION" IDENT
 dec_f_paramlist ::= ʎ
     | dec_f_paramlist tipo "," "INTENT" "(" "IN" ")"
